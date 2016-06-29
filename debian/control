@@ -1,0 +1,67 @@
+Source: libhx
+Priority: extra
+Maintainer: Bastian Kleineidam <calvin@debian.org>
+Build-Depends: debhelper (>= 7), cdbs
+Standards-Version: 3.9.1
+Section: libs
+Homepage: http://libhx.sourceforge.net/
+Vcs-Git: git://libhx.git.sf.net/gitroot/libhx/libhx/
+
+Package: libhx25
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A library providing queue, tree, I/O and utility functions
+ C library for:
+  - A+R/B trees to use for lists or maps (associative arrays)
+  - Deques (double-ended queues) (Stacks (LIFO) / Queues (FIFOs))
+  - platform independent opendir-style directory access
+  - platform independent dlopen-style shared library access
+  - auto-storage strings with direct access
+  - command line option (argv) parser
+  - shell-style config file parser
+  - platform independent random number generator with transparent
+    /dev/urandom support
+  - various string, memory and zvec ops
+ .
+ This package contains the shared libraries.
+
+Package: libhx-dev
+Section: libdevel
+Architecture: any
+Depends: libhx25 (= ${binary:Version}), ${misc:Depends}
+Description: Development files for libhx
+ C library for:
+  - A+R/B trees to use for lists or maps (associative arrays)
+  - Deques (double-ended queues) (Stacks (LIFO) / Queues (FIFOs))
+  - platform independent opendir-style directory access
+  - platform independent dlopen-style shared library access
+  - auto-storage strings with direct access
+  - command line option (argv) parser
+  - shell-style config file parser
+  - platform independent random number generator with transparent
+    /dev/urandom support
+  - various string, memory and zvec ops
+ .
+ This package contains the development libraries, header files needed by
+ programs that want to compile with libhx.
+
+Package: libhx-doc
+Section: doc
+Architecture: any
+Depends: ${misc:Depends}
+Suggests: libhx-dev
+Description: Documentation files for libhx
+ C library for:
+  - A+R/B trees to use for lists or maps (associative arrays)
+  - Deques (double-ended queues) (Stacks (LIFO) / Queues (FIFOs))
+  - platform independent opendir-style directory access
+  - platform independent dlopen-style shared library access
+  - auto-storage strings with direct access
+  - command line option (argv) parser
+  - shell-style config file parser
+  - platform independent random number generator with transparent
+    /dev/urandom support
+  - various string, memory and zvec ops
+ .
+ This package contains the development documentation.
