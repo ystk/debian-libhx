@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+export DEB_BUILD_HARDENING=1
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+%:
+	dh $@ --with autoreconf
+
+override_dh_auto_configure:
+	dh_auto_configure -- --enable-static
+
+override_dh_installchangelogs:
+# install custom changelog
+	dh_installchangelogs doc/changelog.txt
+
+
+# use xz for debian binary package compression
+override_dh_builddeb:
+	dh_builddeb -- -Zxz

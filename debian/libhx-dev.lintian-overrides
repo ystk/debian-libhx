@@ -1,0 +1,3 @@
+# libHX_rtcheck is used to enable more internal checks dynamically
+libhx-dev: package-name-doesnt-match-sonames libHX-rtcheck
+libhx-dev: shlib-without-versioned-soname usr/lib/x86_64-linux-gnu/libHX_rtcheck.so libHX_rtcheck.so

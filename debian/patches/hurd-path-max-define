@@ -1,0 +1,16 @@
+Index: src/io.c
+===================================================================
+--- a/src/io.c	2011-04-09 18:29:49.937390466 +0200
++++ b/src/io.c	2011-04-09 18:29:58.345704531 +0200
+@@ -30,6 +30,11 @@
+ #include <libHX/string.h>
+ #include "internal.h"
+ 
++#ifndef PATH_MAX
++#define PATH_MAX 4096 /* Hurd does not define PATH_MAX in limits.h */
++#endif
++
++
+ struct HXdir {
+ #if defined _WIN32
+ 	char *dname;
