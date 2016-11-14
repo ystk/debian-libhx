@@ -1,10 +1,10 @@
 /*
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 1999 - 2008
+ *	Copyright Jan Engelhardt, 1999-2008
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #ifndef LIBHX_INTERNAL_H
 #define LIBHX_INTERNAL_H 1
@@ -42,6 +42,23 @@
 #define MAXFNLEN 256  /* max length for filename buffer */
 #define MAXLNLEN 1024 /* max length for usual line */
 
+#define HXMC_IDENT 0x200571AF
+
+struct memcont {
+	size_t alloc, length;
+	unsigned int id;
+	char data[];
+};
+
+struct timespec;
+struct timeval;
+
 extern hxmc_t *HXparse_dequote_fmt(const char *, const char *, const char **);
+
+/* time.c - these are obsolete, but kept for ABI */
+extern void HX_diff_timespec(struct timespec *, const struct timespec *,
+	const struct timespec *);
+extern void HX_diff_timeval(struct timeval *, const struct timeval *,
+	const struct timeval *);
 
 #endif /* LIBHX_INTERNAL_H */

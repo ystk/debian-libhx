@@ -1,101 +1,19 @@
 /*
-A=b;C="d" ; E="F;" ; F= G=Z
-*/
-/*
  *	option parser test program
- *	written by Jan Engelhardt
- *	this program is released in the Public Domain
+ *	Copyright Jan Engelhardt
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the WTF Public License version 2 or
+ *	(at your option) any later version.
  */
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libHX/defs.h>
 #include <libHX/init.h>
 #include <libHX/map.h>
 #include <libHX/option.h>
-
-static const char *const fmt2_strings[] = {
-	"HOME=%(env HOME)\n",
-	"USER=%(upper %(lower %(env USER)))\n",
-	"no-exp: %%(NOEXPANSION) %NOEXPANSION\n",
-	"empty-1: <%()>\n",
-	"empty-2: <%( )>\n",
-	"empty-3: <%(dunno )>\n",
-	"empty-4: <%(echo )>\n",
-	"empty-5: <%(echo %())>\n",
-	"empty-6: <%(echo %( ))>\n",
-	"empty-7: <%(env )> <%(exec )> <%(if )> <%(if cond)> <%(lower )>\n",
-	"empty-8: <%(shell )> <%(snl )> <%(upper )>\n",
-	"basic: <%(ZERO)> <%(ONE)>\n",
-	"recursive-var: <%(%(USER))>\n",
-	"recursive-func: <%(%(env USER))>\n",
-	"ignore-escape: %(echo A\\,B) %(echo A\\)B)\n",
-	"quote-1: %(echo \"A,B\")\n",
-	"quote-2: %(echo %(echo A,B),%(echo C,D),%(echo E F))\n",
-	"quote-3: %(echo \"A)B\")\n",
-	"quote-4: %(echo foo bar) %(echo foo\\ bar)\n",
-	"unclosed-1: %(echo \"%(echo A\",B)\n",
-	"unclosed-2: %(if X,Y,Z", /* ) */
-	"nest-1: %(echo ()) %(echo %())\n",
-	"nest-2: %(echo \\(A) %(echo \\)B)\n",
-	"nest-3: %(echo \\)B\\() %(echo )B()\n",
-	"if-1: %(if %(ZERO),,\"zero is empty\")\n",
-	"if-2: %(if %(ZERO),\"zero is not empty\")\n",
-	"if-3: %(if %(ONE),,\"one is empty\")\n",
-	"if-4: %(if %(ONE),\"one is not empty\")\n",
-	"if-5: %(if %(ONE),-o%(ONE))\n",
-	"exec-1: %(exec uname -s)\n",
-	"exec-2: %(shell uname -s)\n",
-	"exec-3: %(snl %(shell uname -s))\n",
-	NULL,
-};
-
-static void t_format(int argc)
-{
-	struct HXformat_map *fmt = HXformat_init();
-	const char *const *s;
-
-	HXformat_add(fmt, "/libhx/exec", NULL, HXFORMAT_IMMED);
-	HXformat_add(fmt, "jengelh", "1337", HXTYPE_STRING | HXFORMAT_IMMED);
-	HXformat_add(fmt, "USER", "jengelh", HXTYPE_STRING | HXFORMAT_IMMED);
-	HXformat_add(fmt, "ARGC", &argc, HXTYPE_INT);
-	HXformat_add(fmt, "ARGK", (const void *)(long)argc, HXTYPE_INT | HXFORMAT_IMMED);
-	HXformat_add(fmt, "ZERO", "", HXTYPE_STRING | HXFORMAT_IMMED);
-	HXformat_add(fmt, "ONE", "1", HXTYPE_STRING | HXFORMAT_IMMED);
-	++argc;
-	printf("# HXformat2\n");
-	for (s = fmt2_strings; *s != '\0'; ++s)
-		HXformat2_fprintf(fmt, stdout, *s);
-	HXformat_free(fmt);
-}
-
-static void t_shconfig(const char *file)
-{
-	char *A, *C, *E;
-	struct HXoption opt_tab[] = {
-		{.ln = "A", .type = HXTYPE_STRING, .ptr = &A},
-		{.ln = "C", .type = HXTYPE_STRING, .ptr = &C},
-		{.ln = "E", .type = HXTYPE_STRING, .ptr = &E},
-		HXOPT_TABLEEND,
-	};
-	if (HX_shconfig(file, opt_tab) < 0)
-		fprintf(stderr, "Read error %s: %s\n", file, strerror(errno));
-}
-
-static void t_shconfig2(const char *file)
-{
-	const struct HXmap_node *node;
-	struct HXmap_trav *trav;
-	struct HXmap *map;
-
-	map = HX_shconfig_map(file);
-	if (map == NULL)
-		abort();
-	trav = HXmap_travinit(map, HXMAP_NOFLAGS);
-	while ((node = HXmap_traverse(trav)) != NULL)
-		printf("\t\"%s\" -> \"%s\"\n", node->skey, node->sdata);
-	HXmap_travfree(trav);
-}
 
 static int opt_v = 0, opt_mask = 0;
 static char *opt_kstr = NULL;
@@ -119,6 +37,8 @@ static struct HXoption table[] = {
 	 .ptr = &opt_kflag, .help = "Callback function for flags"},
 	{.ln = "long", .sh = 'L', .type = HXTYPE_LONG, .cb = opt_cbf,
 	 .ptr = &opt_klong, .help = "Callback function for integers"},
+	{.sh = 'B', .type = HXTYPE_BOOL, .ptr = &opt_v,
+	 .cb = opt_cbf, .help = "Bool test", .htyp = "value"},
 	{.sh = 'P', .type = HXTYPE_MCSTR, .ptr = &opt_mcstr,
 	 .help = "Any string"},
 	{.ln = "str", .sh = 'S', .type = HXTYPE_STRING, .cb = opt_cbf,
@@ -140,27 +60,60 @@ static struct HXoption table[] = {
 	{.sh = 'G', .type = HXTYPE_NONE, .help = "Just a flag", .cb = opt_cbf},
 	{.sh = 'H', .type = HXTYPE_NONE, .help = "Just a flag", .cb = opt_cbf},
 	{.sh = 'I', .type = HXTYPE_NONE, .help = "Just a flag", .cb = opt_cbf},
-	{.sh = 'J', .type = HXTYPE_NONE, .help = "Just a flag", .cb = opt_cbf},
 	HXOPT_AUTOHELP,
+	{.sh = 'J', .type = HXTYPE_NONE, .help = "Just a flag", .cb = opt_cbf},
 	HXOPT_TABLEEND,
 };
+
+static void dump_argv(const char **v)
+{
+	while (*v != NULL)
+		printf("[%s] ", *v++);
+	printf("\n");
+}
+
+static void t_pthru(void)
+{
+	const char *argv[] = {
+		"ARGV0", "-Zomg", "-GZfoo", "bar",
+		"--unknown-f=13.37", "--unknown-a",
+		"foo", "bar", NULL
+	};
+	const char **argp = argv;
+	int argc = ARRAY_SIZE(argv) - 1;
+
+	printf("PTHRU test:\n");
+	HX_getopt(table, &argc, &argp, HXOPT_USAGEONERR | HXOPT_PTHRU);
+	dump_argv(argp);
+	printf("\n");
+}
+
+static void t_empty_argv(void)
+{
+	const char *zero_argv[] = {NULL}, **zero_argp = zero_argv;
+	int zero_argc = 0;
+
+	printf("Testing argv={NULL}\n");
+	HX_getopt(table, &zero_argc, &zero_argp, HXOPT_USAGEONERR);
+}
 
 int main(int argc, const char **argv)
 {
 	if (HX_init() <= 0)
 		abort();
-	t_format(argc);
-	t_shconfig((argc >= 2) ? argv[1] : "tc-option.c");
-	t_shconfig2((argc >= 2) ? argv[1] : "tc-option.c");
-
 	printf("Return value of HX_getopt: %d\n",
 	       HX_getopt(table, &argc, &argv, HXOPT_USAGEONERR));
+	t_empty_argv();
+
 	printf("Either-or is: %s\n", opt_eitheror[opt_dst]);
 	printf("values: D=%lf I=%d L=%ld S=%s\n",
 	       opt_kdbl, opt_kint, opt_klong, opt_kstr);
 	printf("Verbosity level: %d\n", opt_v);
 	printf("Mask: 0x%08X\n", opt_mask);
 	printf("mcstr: >%s<\n", opt_mcstr);
+
+	t_pthru();
+
 	HX_exit();
 	return EXIT_SUCCESS;
 }

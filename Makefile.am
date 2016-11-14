@@ -1,9 +1,9 @@
 # -*- Makefile -*-
 
+PACKAGE          = ${PACKAGE_NAME}
 ACLOCAL_AMFLAGS  = -I m4
-SUBDIRS          = doc src
+SUBDIRS          = doc include src
 
-pkgconfigdir     = @pkgconfigdir@
 pkgconfig_DATA   = libHX.pc
 
 ${pkgconfig_DATA}: ${top_builddir}/config.status

@@ -1,11 +1,11 @@
 /*
  *	Maps (key-value pairs)
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 2009
+ *	Copyright Jan Engelhardt, 2009
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  *
  *	Incorporates Public Domain code from Bob Jenkins's lookup3 (May 2006)
  */
@@ -22,6 +22,23 @@
 #include "internal.h"
 #include "map_int.h"
 
+typedef void *(*clonefunc_t)(const void *, size_t);
+
+#ifdef NONPRIME_HASH
+/*
+ * If a hash function is good, it will yield an even distribution even with
+ * a non-prime-sized bucket set.
+ */
+EXPORT_SYMBOL const unsigned int HXhash_primes[] = {
+	1 <<  4, 1 <<  5, 1 <<  6,  1 <<  7,
+	1 <<  8, 1 <<  9, 1 << 10,  1 << 11,
+	1 << 12, 1 << 13, 1 << 14,  1 << 15,
+	1 << 16, 1 << 17, 1 << 18,  1 << 19,
+	1 << 20, 1 << 21, 1 << 22,  1 << 23,
+	1 << 24, 1 << 25, 1 << 26,  1 << 27,
+	1 << 28, 1 << 29, 1 << 30, 1U << 31,
+};
+#else
 /*
  * http://planetmath.org/encyclopedia/GoodHashTablePrimes.html
  * 23 and 3221.. added by j.eng.
@@ -32,6 +49,7 @@ EXPORT_SYMBOL const unsigned int HXhash_primes[] = {
 	25165843, 50331653, 100663319, 201326611, 402653189, 805306457,
 	1610612741, 3221225473U,
 };
+#endif
 
 static void HXhmap_free(struct HXhmap *hmap)
 {
@@ -98,7 +116,7 @@ EXPORT_SYMBOL void HXmap_free(struct HXmap *xmap)
 static int HXmap_valuecmp(const void *pa, const void *pb, size_t len)
 {
 	/*
-	 * Cannot use "pa - pb" as that could underflow. 
+	 * Cannot use "pa - pb" as that could underflow.
 	 * Also, while "return (pa > pb) - (pa < pb)" does not use a branch,
 	 * it compiles to more instructions and seems to be slower on x86.
 	 */
@@ -111,26 +129,6 @@ static void *HXmap_valuecpy(const void *p, size_t len)
 }
 
 #define jrot(x,k) (((x) << (k)) | ((x) >> (32 - (k))))
-
-/* jhash_mix - mix 3 32-bit values reversibly. */
-#define jhash_mix(a, b, c) { \
-	a -= c; a ^= jrot(c,  4); c += b; \
-	b -= a; b ^= jrot(a,  6); a += c; \
-	c -= b; c ^= jrot(b,  8); b += a; \
-	a -= c; a ^= jrot(c, 16); c += b; \
-	b -= a; b ^= jrot(a, 19); a += c; \
-	c -= b; c ^= jrot(b,  4); b += a; \
-}
-
-#define jhash_final(a, b, c) { \
-	c ^= b; c -= jrot(b, 14); \
-	a ^= c; a -= jrot(c, 11); \
-	b ^= a; b -= jrot(a, 25); \
-	c ^= b; c -= jrot(b, 16); \
-	a ^= c; a -= jrot(c,  4);  \
-	b ^= a; b -= jrot(a, 14); \
-	c ^= b; c -= jrot(b, 24); \
-}
 
 EXPORT_SYMBOL unsigned long HXhash_jlookup3(const void *vkey, size_t length)
 {
@@ -147,7 +145,13 @@ EXPORT_SYMBOL unsigned long HXhash_jlookup3(const void *vkey, size_t length)
 		     ((uint32_t)key[6] << 16) + ((uint32_t)key[7] << 24);
 		c += key[8] + ((uint32_t)key[9] << 8) +
 		     ((uint32_t)key[10] << 16)+ ((uint32_t)key[11] << 24);
-		jhash_mix(a, b, c);
+		/* jhash_mix - mix 3 32-bit values reversibly. */
+		a -= c; a ^= jrot(c,  4); c += b;
+		b -= a; b ^= jrot(a,  6); a += c;
+		c -= b; c ^= jrot(b,  8); b += a;
+		a -= c; a ^= jrot(c, 16); c += b;
+		b -= a; b ^= jrot(a, 19); a += c;
+		c -= b; c ^= jrot(b,  4); b += a;
 	}
 
 	switch (length) {
@@ -166,8 +170,14 @@ EXPORT_SYMBOL unsigned long HXhash_jlookup3(const void *vkey, size_t length)
 		break;
 	case  0: return c;
 	}
-
-	jhash_final(a,b,c);
+	/* jhash_final */
+	c ^= b; c -= jrot(b, 14);
+	a ^= c; a -= jrot(c, 11);
+	b ^= a; b -= jrot(a, 25);
+	c ^= b; c -= jrot(b, 16);
+	a ^= c; a -= jrot(c,  4);
+	b ^= a; b -= jrot(a, 14);
+	c ^= b; c -= jrot(b, 24);
 	return c;
 }
 
@@ -214,12 +224,14 @@ static void HXmap_ops_setup(struct HXmap_private *super,
 
 	if (super->flags & HXMAP_CKEY) {
 		ops->k_clone = (super->flags & HXMAP_SKEY) ?
-		               static_cast(void *, HX_strdup) : HX_memdup;
+		               reinterpret_cast(clonefunc_t, HX_strdup) :
+		               HX_memdup;
 		ops->k_free  = free;
 	}
 	if (super->flags & HXMAP_CDATA) {
 		ops->d_clone = (super->flags & HXMAP_SDATA) ?
-		               static_cast(void *, HX_strdup) : HX_memdup;
+		               reinterpret_cast(clonefunc_t, HX_strdup) :
+		               HX_memdup;
 		ops->d_free  = free;
 	}
 
@@ -258,8 +270,8 @@ static void HXmap_ops_setup(struct HXmap_private *super,
  * Calculates @v * (@n / @d) without floating point or risk of overflow
  * (when @n <= @d).
  */
-static inline unsigned int x_frac(unsigned int n, unsigned int d,
-    unsigned int v)
+static __inline__ unsigned int
+x_frac(unsigned int n, unsigned int d, unsigned int v)
 {
 	return (v / d) * n + (v % d) * n / d;
 }
@@ -276,11 +288,19 @@ static void HXhmap_move(struct HXlist_head *bk_array, unsigned int bk_number,
 	struct HXhmap_node *drop, *dnext;
 	unsigned int bk_idx, i;
 
+#ifdef NONPRIME_HASH
+	--bk_number;
+#endif
 	for (i = 0; i < HXhash_primes[hmap->power]; ++i)
 		HXlist_for_each_entry_safe(drop, dnext,
 		    &hmap->bk_array[i], anchor) {
+#ifdef NONPRIME_HASH
+			bk_idx = hmap->super.ops.k_hash(drop->key,
+			         hmap->super.key_size) & bk_number;
+#else
 			bk_idx = hmap->super.ops.k_hash(drop->key,
 			         hmap->super.key_size) % bk_number;
+#endif
 			HXlist_del(&drop->anchor);
 			HXlist_add_tail(&bk_array[bk_idx], &drop->anchor);
 		}
@@ -402,6 +422,22 @@ EXPORT_SYMBOL struct HXmap *HXmap_init5(enum HXmap_type type,
 EXPORT_SYMBOL struct HXmap *HXmap_init(enum HXmap_type type,
     unsigned int flags)
 {
+	/*
+	 * We cannot check this in HXmap_init5, since a custom ops may
+	 * allow key_size==0/data_size==0.
+	 */
+	if ((flags & HXMAP_SCKEY) == HXMAP_CKEY) {
+		fprintf(stderr, "%s: zero key_size with standard memcpy ops "
+		        "won't work.\n", __func__);
+		errno = EINVAL;
+		return NULL;
+	}
+	if ((flags & HXMAP_SCDATA) == HXMAP_CDATA) {
+		fprintf(stderr, "%s: zero data_size with standard memcpy ops "
+		        "won't work.\n", __func__);
+		errno = EINVAL;
+		return NULL;
+	}
 	return HXmap_init5(type, flags, NULL, 0, 0);
 }
 
@@ -411,8 +447,13 @@ static struct HXhmap_node *HXhmap_find(const struct HXhmap *hmap,
 	struct HXhmap_node *drop;
 	unsigned int bk_idx;
 
+#ifdef NONPRIME_HASH
+	bk_idx = hmap->super.ops.k_hash(key, hmap->super.key_size) &
+	         (HXhash_primes[hmap->power] - 1);
+#else
 	bk_idx = hmap->super.ops.k_hash(key, hmap->super.key_size) %
 	         HXhash_primes[hmap->power];
+#endif
 	HXlist_for_each_entry(drop, &hmap->bk_array[bk_idx], anchor)
 		if (hmap->super.ops.k_compare(key, drop->key,
 		    hmap->super.key_size) == 0)
@@ -519,8 +560,13 @@ static int HXhmap_add(struct HXhmap *hmap, const void *key, const void *value)
 	if (drop->data == NULL && value != NULL)
 		goto out;
 
+#ifdef NONPRIME_HASH
+	bk_idx = hmap->super.ops.k_hash(key, hmap->super.key_size) &
+	         (HXhash_primes[hmap->power] - 1);
+#else
 	bk_idx = hmap->super.ops.k_hash(key, hmap->super.key_size) %
 	         HXhash_primes[hmap->power];
+#endif
 	HXlist_add_tail(&hmap->bk_array[bk_idx], &drop->anchor);
 	++hmap->super.items;
 	return 1;
@@ -584,9 +630,9 @@ static void HXrbtree_amov(struct HXrbtree_node **path,
 			grandp->sub[LR]  = newnode;
 			/* relabel */
 			parent  = grandp->sub[LR];
-			newnode = parent->sub[LR];
+			/* unused assignment: newnode = parent->sub[LR]; */
 		} else {
-			newnode = path[depth];
+			/* unused assignment: newnode = path[depth]; */
 		}
 
 		/*
@@ -1013,7 +1059,9 @@ EXPORT_SYMBOL struct HXmap_node *HXmap_keysvalues(const struct HXmap *xmap)
 		HXhmap_keysvalues(vmap, array);
 		break;
 	case HXMAPT_RBTREE:
-		HXrbtree_keysvalues(((struct HXrbtree *)vmap)->root, array);
+		HXrbtree_keysvalues(
+			static_cast(const struct HXrbtree *, vmap)->root,
+			array);
 		break;
 	}
 	return array;

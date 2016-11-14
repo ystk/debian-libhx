@@ -1,15 +1,16 @@
 /*
  *	C-string functions
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 1999 - 2010
+ *	Copyright Jan Engelhardt, 1999-2010
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,7 +18,29 @@
 #include <libHX/string.h>
 #include "internal.h"
 
-static inline unsigned int min_uint(unsigned int a, unsigned int b)
+/**
+ * %HXQUOTE_ACCEPT:	the listed characters are passed through,
+ * 			all others need to be quoted
+ * %HXQUOTE_REJECT:	the listed characters need to be quoted,
+ * 			all others pass through
+ */
+enum HX_quote_selector {
+	HXQUOTE_ACCEPT,
+	HXQUOTE_REJECT,
+};
+
+/**
+ * @selector:	whether this rule is accept- or reject-based
+ * @qchars:	characters that need (no) quoting
+ */
+struct HX_quote_rule {
+	char selector;
+	const char *chars;
+};
+
+static const char HX_hexenc[16] = "0123456789ABCDEF";
+
+static __inline__ unsigned int min_uint(unsigned int a, unsigned int b)
 {
 	return (a < b) ? a : b;
 }
@@ -25,9 +48,15 @@ static inline unsigned int min_uint(unsigned int a, unsigned int b)
 EXPORT_SYMBOL char *HX_basename(const char *s)
 {
 	const char *p;
+	/* ignore trailing slashes */
 	for (p = s + strlen(s) - 1; p >= s && *p == '/'; --p)
 		;
 	if (p < s)
+		/*
+		 * String contained only slashes - this must be the root
+		 * directory. Since we have the opportunity, rather than
+		 * returning "////", just give the cleaned-up "/".
+		 */
 		return const_cast1(char *, s + strlen(s) - 1);
 	if ((p = HX_strbchr(s, p, '/')) != NULL)
 		return const_cast1(char *, p + 1);
@@ -42,9 +71,11 @@ EXPORT_SYMBOL char *HX_basename_exact(const char *s)
 
 	if (*s == '\0')
 		return HX_strdup(".");
+	/* ignore trailing slashes */
 	for (end = s + strlen(s) - 1; end >= s && *end == '/'; --end)
 		;
 	if (end < s)
+		/* string consisted of only slashes */
 		return HX_strdup("/");
 
 	start = HX_strbchr(s, end, '/');
@@ -103,13 +134,17 @@ EXPORT_SYMBOL hxmc_t *HX_getl(hxmc_t **ptr, FILE *fp)
 	if (fgets(temp, sizeof(temp), fp) == NULL)
 		return NULL;
 
-	if (*ptr == NULL)
+	if (*ptr == NULL) {
 		*ptr = HXmc_meminit(NULL, 0);
-	else
+		if (*ptr == NULL)
+			return NULL;
+	} else {
 		HXmc_trunc(ptr, 0);
+	}
 
 	do {
-		HXmc_strcat(ptr, temp);
+		if (HXmc_strcat(ptr, temp) == NULL)
+			return *ptr;
 		if (strchr(temp, '\n') != NULL)
 			break;
 	} while (fgets(temp, sizeof(temp), fp) != NULL);
@@ -117,16 +152,33 @@ EXPORT_SYMBOL hxmc_t *HX_getl(hxmc_t **ptr, FILE *fp)
 	return *ptr;
 }
 
-EXPORT_SYMBOL void *HX_memmem(const void *space, size_t spacesize,
-    const void *point, size_t pointsize)
+EXPORT_SYMBOL void *HX_memmem(const void *vspace, size_t spacesize,
+    const void *vpoint, size_t pointsize)
 {
-	size_t i;
+	const char *space = vspace, *point = vpoint;
+	const char *head, *end;
+	size_t tailsize;
+	char *tail;
 
+	if (pointsize == 0)
+		return const_cast1(void *, vspace);
 	if (pointsize > spacesize)
 		return NULL;
-	for (i = 0; i <= spacesize - pointsize; ++i)
-		if (memcmp(space + i, point, pointsize) == 0)
-			return const_cast1(void *, space + i);
+
+	/* Do a BM-style trailer search and reduce calls to memcmp */
+	head = space + (pointsize - 1);
+	tail = memchr(head, point[pointsize-1], spacesize - (pointsize - 1));
+	if (tail == NULL || pointsize == 1)
+		return tail;
+	end = space + spacesize;
+	do {
+		head = tail - pointsize + 1;
+		if (memcmp(head, point, pointsize) == 0)
+			return const_cast(char *, head);
+		++tail;
+		tailsize = end - tail;
+		tail = memchr(tail, point[pointsize-1], tailsize);
+	} while (tail != NULL);
 	return NULL;
 }
 
@@ -148,12 +200,15 @@ EXPORT_SYMBOL char **HX_split(const char *str, const char *delim,
 	{
 		const char *wp = str;
 		while ((wp = strpbrk(wp, delim)) != NULL) {
-			++*cp;
+			if (++*cp >= max && max > 0) {
+				*cp = max;
+				break;
+			}
 			++wp;
 		}
 	}
 
-	if (max == 0)
+	if (max == 0 || *cp < max)
 		max = *cp;
 	else if (*cp > max)
 		*cp = max;
@@ -234,6 +289,19 @@ EXPORT_SYMBOL char *HX_strbchr(const char *start, const char *now, char d)
 	return NULL;
 }
 
+/**
+ * This is the counterpart to strpbrk(). Returns a pointer to the first
+ * character not in @accept, or otherwise %NULL.
+ */
+EXPORT_SYMBOL char *HX_strchr2(const char *s, const char *accept)
+{
+	size_t seg = strspn(s, accept);
+
+	if (s[seg] == '\0')
+		return NULL;
+	return const_cast1(char *, s + seg);
+}
+
 EXPORT_SYMBOL char *HX_strclone(char **pa, const char *pb)
 {
 	if (*pa == pb)
@@ -250,6 +318,39 @@ EXPORT_SYMBOL char *HX_strclone(char **pa, const char *pb)
 	return *pa;
 }
 
+EXPORT_SYMBOL char *HX_strdup(const char *src)
+{
+	if (src == NULL)
+		return NULL;
+	/* return HX_strndup(src, SIZE_MAX); */
+	return HX_memdup(src, strlen(src) + 1);
+}
+
+EXPORT_SYMBOL char *HX_strlcat(char *dest, const char *src, size_t len)
+{
+	ssize_t x = len - strlen(dest) - 1;
+	if (x <= 0)
+		return dest;
+	return strncat(dest, src, x);
+}
+
+EXPORT_SYMBOL char *HX_strlcpy(char *dest, const char *src, size_t n)
+{
+	strncpy(dest, src, n);
+	dest[n-1] = '\0';
+	return dest;
+}
+
+EXPORT_SYMBOL char *HX_strlncat(char *dest, const char *src, size_t dlen,
+    size_t slen)
+{
+	ssize_t x = dlen - strlen(dest) - 1;
+	if (x <= 0)
+		return dest;
+	x = ((ssize_t)slen < x) ? (ssize_t)slen : x;
+	return strncat(dest, src, x);
+}
+
 EXPORT_SYMBOL char *HX_strlower(char *orig)
 {
 	char *expr;
@@ -264,11 +365,18 @@ EXPORT_SYMBOL size_t HX_strltrim(char *expr)
 	size_t diff = 0;
 	travp = expr;
 
-	while (*travp != '\0' && HX_isspace(*travp))
+	while (HX_isspace(*travp))
 		++travp;
 	if ((diff = travp - expr) > 0)
-		memmove(expr, travp, diff);
+		memmove(expr, travp, strlen(travp) + 1);
 	return diff;
+}
+
+EXPORT_SYMBOL char *HX_stpltrim(const char *p)
+{
+	while (HX_isspace(*p))
+		++p;
+	return const_cast1(char *, p);
 }
 
 /* supports negative offsets like scripting languages */
@@ -285,6 +393,31 @@ EXPORT_SYMBOL char *HX_strmid(const char *expr, long offset, long length)
 
 	expr += offset;
 	return HX_strlcpy(buffer, expr, length + 1);
+}
+
+EXPORT_SYMBOL char *HX_strndup(const char *src, size_t size)
+{
+	char *ret;
+	size_t z;
+
+	if (src == NULL)
+		return NULL;
+	z = strlen(src);
+	if (z < size)
+		size = z;
+	if ((ret = malloc(size + 1)) == NULL)
+		return NULL;
+	memcpy(ret, src, size);
+	ret[size] = '\0';
+	return ret;
+}
+
+EXPORT_SYMBOL size_t HX_strnlen(const char *src, size_t size)
+{
+	const char *ptr = src;
+	for (; *ptr != '\0' && size > 0; --size, ++ptr)
+		;
+	return ptr - src;
 }
 
 EXPORT_SYMBOL size_t HX_strrcspn(const char *s, const char *rej)
@@ -345,7 +478,7 @@ EXPORT_SYMBOL char *HX_strsep(char **sp, const char *d)
 		*end++ = '\0';
 		*sp = end;
 	}
-	
+
 	return begin;
 }
 
@@ -364,24 +497,50 @@ EXPORT_SYMBOL char *HX_strsep2(char **wp, const char *str)
 	return ret;
 }
 
-static const char *const HX_quote_chars[] = {
-	[HXQUOTE_SQUOTE] = "'\\",
-	[HXQUOTE_DQUOTE] = "\"\\",
-	[HXQUOTE_HTML]   = "\"&<>",
-	[HXQUOTE_LDAPFLT] = "\n*()\\",
-	[HXQUOTE_LDAPRDN] = "\n \"#+,;<=>\\",
+static const struct HX_quote_rule HX_quote_rules[] = {
+	[HXQUOTE_SQUOTE]  = {HXQUOTE_REJECT, "'\\"},
+	[HXQUOTE_DQUOTE]  = {HXQUOTE_REJECT, "\"\\"},
+	[HXQUOTE_HTML]    = {HXQUOTE_REJECT, "\"&<>"},
+	[HXQUOTE_LDAPFLT] = {HXQUOTE_REJECT, "\n*()\\"},
+	[HXQUOTE_LDAPRDN] = {HXQUOTE_REJECT, "\n \"#+,;<=>\\"},
+	[HXQUOTE_URIENC]  = {HXQUOTE_ACCEPT, "-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~"},
+	[HXQUOTE_SQLSQUOTE] = {HXQUOTE_REJECT, "'"},
 };
 
 /**
- * HX_qsize_backslash - calculate size of new buffer
+ * HX_qsize_bsa - calculate length of statically expanded string (for accepts)
  * @s:		input string
  * @qchars:	characters that need quoting
  * @cost:	quoting cost per quoted character
  *
- * The cost depends on the quote format (\a vs \07 vs \x07).
+ * The cost depends on the quote format. Typical values:
+ * 	1	when "&" becomes "\&" (programming language-like)
+ * 	2	when "&" becomes "\26" (LDAPRDN/HTTPURI-like hex encoding)
+ * 	3	when "&" becomes "\x26" (hex encoding for programming)
  */
-static size_t HX_qsize_backslash(const char *s, const char *qchars,
-    unsigned int cost)
+static size_t
+HX_qsize_bsa(const char *s, const char *qchars, unsigned int cost)
+{
+	const char *p = s;
+	size_t n = strlen(s);
+
+	while ((p = HX_strchr2(p, qchars)) != NULL) {
+		n += cost;
+		++p;
+	}
+	return n;
+}
+
+/**
+ * HX_qsize_bsr - calculate length of statically expanded string (for rejects)
+ * @s:		input string
+ * @qchars:	characters that need quoting
+ * @cost:	quoting cost per quoted character
+ *
+ * Same as for HX_qsize_bsa, but for HXQUOTE_REJECT-type rules.
+ */
+static size_t
+HX_qsize_bsr(const char *s, const char *qchars, unsigned int cost)
 {
 	const char *p = s;
 	size_t n = strlen(s);
@@ -415,12 +574,75 @@ static char *HX_quote_backslash(char *dest, const char *src, const char *qc)
 	return ret;
 }
 
+static char *
+HX_quote_sqlbackslash(char *dest, const char *src, const char *trm)
+{
+	char *ret = dest;
+	size_t len;
+
+	while (*src != '\0') {
+		len = strcspn(src, trm);
+		if (len > 0) {
+			memcpy(dest, src, len);
+			dest += len;
+			src  += len;
+			if (*src == '\0')
+				break;
+		}
+		*dest++ = *trm;
+		*dest++ = *trm;
+		++src;
+	}
+
+	*dest = '\0';
+	return ret;
+}
+
+/**
+ * Encode @src into BASE-64 according to RFC 4648 and write result to @dest,
+ * which must be of appropriate size, plus one for a trailing NUL.
+ */
+static char *HX_quote_base64(char *d, const char *s)
+{
+	static const char a[] =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz0123456789+/";
+	size_t len = strlen(s);
+	char *ret = d;
+
+	while (len > 0) {
+		if (len >= 3) {
+			len -= 3;
+			d[0] = a[(s[0] & 0xFC) >> 2];
+			d[1] = a[((s[0] & 0x03) << 4) | ((s[1] & 0xF0) >> 4)];
+			d[2] = a[((s[1] & 0x0F) << 2) | ((s[2] & 0xC0) >> 6)];
+			d[3] = a[s[2] & 0x3F];
+		} else if (len == 2) {
+			len = 0;
+			d[0] = a[(s[0] & 0xFC) >> 2];
+			d[1] = a[((s[0] & 0x03) << 4) | ((s[1] & 0xF0) >> 4)];
+			d[2] = a[(s[1] & 0x0F) << 2];
+			d[3] = '=';
+		} else if (len == 1) {
+			len = 0;
+			d[0] = a[(s[0] & 0xFC) >> 2];
+			d[1] = a[(s[0] & 0x03) << 4];
+			d[2] = '=';
+			d[3] = '=';
+		}
+		s += 3;
+		d += 4;
+	}
+	*d = '\0';
+	return ret;
+}
+
 static size_t HX_qsize_html(const char *s)
 {
 	const char *p = s;
 	size_t n = strlen(s);
 
-	while ((p = strpbrk(p, HX_quote_chars[HXQUOTE_HTML])) != NULL) {
+	while ((p = strpbrk(p, HX_quote_rules[HXQUOTE_HTML].chars)) != NULL) {
 		switch (*p) {
 		/* minus 2: \0 and the original char */
 		case '"':
@@ -449,7 +671,7 @@ static char *HX_quote_html(char *dest, const char *src)
 	char *ret = dest;
 
 	while (*src != '\0') {
-		size_t len = strcspn(src, HX_quote_chars[HXQUOTE_HTML]);
+		size_t len = strcspn(src, HX_quote_rules[HXQUOTE_HTML].chars);
 		if (len > 0) {
 			memcpy(dest, src, len);
 			dest += len;
@@ -471,7 +693,6 @@ static char *HX_quote_html(char *dest, const char *src)
 
 static char *HX_quote_ldap(char *dest, const char *src, const char *qc)
 {
-	static const char hex[] = "0123456789ABCDEF";
 	char *ret = dest;
 	size_t len;
 
@@ -485,14 +706,36 @@ static char *HX_quote_ldap(char *dest, const char *src, const char *qc)
 				break;
 		}
 		*dest++ = '\\';
-		*dest++ = hex[(*src >> 4) & 0x0F];
-		*dest++ = hex[*src++ & 0x0F];
+		*dest++ = HX_hexenc[(*src >> 4) & 0x0F];
+		*dest++ = HX_hexenc[*src++ & 0x0F];
 	}
 
 	*dest = '\0';
 	return ret;
 }
 
+static char *HX_quote_urlenc(char *dest, const char *src)
+{
+	char *ret = dest;
+	size_t len;
+
+	while (*src != '\0') {
+		len = strspn(src, HX_quote_rules[HXQUOTE_URIENC].chars);
+		if (len > 0) {
+			memcpy(dest, src, len);
+			dest += len;
+			src  += len;
+			if (*src == '\0')
+				break;
+		}
+		*dest++ = '%';
+		*dest++ = HX_hexenc[(*src >> 4) & 0x0F];
+		*dest++ = HX_hexenc[*src++ & 0x0F];
+	}
+
+	*dest = '\0';
+	return ret;
+}
 
 /**
  * HX_quoted_size -
@@ -506,12 +749,17 @@ static size_t HX_quoted_size(const char *s, unsigned int type)
 	switch (type) {
 	case HXQUOTE_SQUOTE:
 	case HXQUOTE_DQUOTE:
-		return HX_qsize_backslash(s, HX_quote_chars[type], 1);
+	case HXQUOTE_SQLSQUOTE:
+		return HX_qsize_bsr(s, HX_quote_rules[type].chars, 1);
 	case HXQUOTE_HTML:
 		return HX_qsize_html(s);
 	case HXQUOTE_LDAPFLT:
 	case HXQUOTE_LDAPRDN:
-		return HX_qsize_backslash(s, HX_quote_chars[type], 2);
+		return HX_qsize_bsr(s, HX_quote_rules[type].chars, 2);
+	case HXQUOTE_BASE64:
+		return (strlen(s) + 2) / 3 * 4;
+	case HXQUOTE_URIENC:
+		return HX_qsize_bsa(s, HX_quote_rules[type].chars, 2);
 	default:
 		return strlen(s);
 	}
@@ -520,11 +768,24 @@ static size_t HX_quoted_size(const char *s, unsigned int type)
 EXPORT_SYMBOL char *HX_strquote(const char *src, unsigned int type,
     char **free_me)
 {
+	const struct HX_quote_rule *rule;
 	bool do_quote;
 	char *tmp;
 
-	do_quote = type < _HXQUOTE_MAX &&
-	           strpbrk(src, HX_quote_chars[type]) != NULL;
+	if (type >= _HXQUOTE_MAX) {
+		errno = EINVAL;
+		return NULL;
+	}
+	/* If quote_chars is NULL, it is clear all chars are to be encoded. */
+	rule = &HX_quote_rules[type];
+	if (type >= ARRAY_SIZE(HX_quote_rules) || rule->chars == NULL)
+		do_quote = true;
+	else if (rule->selector == HXQUOTE_REJECT)
+		do_quote = strpbrk(src, rule->chars) != NULL;
+	else if (rule->selector == HXQUOTE_ACCEPT)
+		do_quote = HX_strchr2(src, rule->chars) != NULL;
+	else
+		do_quote = false;
 	/*
 	 * free_me == NULL implies that we always allocate, even if
 	 * there is nothing to quote.
@@ -547,12 +808,18 @@ EXPORT_SYMBOL char *HX_strquote(const char *src, unsigned int type,
 	switch (type) {
 	case HXQUOTE_SQUOTE:
 	case HXQUOTE_DQUOTE:
-		return HX_quote_backslash(*free_me, src, HX_quote_chars[type]);
+		return HX_quote_backslash(*free_me, src, rule->chars);
 	case HXQUOTE_HTML:
 		return HX_quote_html(*free_me, src);
 	case HXQUOTE_LDAPFLT:
 	case HXQUOTE_LDAPRDN:
-		return HX_quote_ldap(*free_me, src, HX_quote_chars[type]);
+		return HX_quote_ldap(*free_me, src, rule->chars);
+	case HXQUOTE_BASE64:
+		return HX_quote_base64(*free_me, src);
+	case HXQUOTE_URIENC:
+		return HX_quote_urlenc(*free_me, src);
+	case HXQUOTE_SQLSQUOTE:
+		return HX_quote_sqlbackslash(*free_me, src, rule->chars);
 	}
 	return NULL;
 }

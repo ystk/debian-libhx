@@ -1,21 +1,29 @@
-#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options true
+\maintain_unincluded_children false
 \language english
+\language_package default
 \inputencoding utf8
+\fontencoding global
 \font_roman lmodern
 \font_sans lmss
 \font_typewriter lmtt
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize 12
 \spacing single
 \use_hyperref true
@@ -32,9 +40,18 @@
 \use_geometry true
 \use_amsmath 1
 \use_esint 1
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine natbib_numerical
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \leftmargin 2cm
 \topmargin 2cm
 \rightmargin 2cm
@@ -42,21 +59,22 @@
 \secnumdepth 3
 \tocdepth 1
 \paragraph_separation indent
-\defskip medskip
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
 \end_header
 
 \begin_body
 
 \begin_layout Title
-libHX 3.5
+libHX 3.21
 \begin_inset Newline newline
 \end_inset
 
@@ -448,7 +466,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://freshmeat.net/projects/libhx/
+http://freecode.com/projects/libhx/
 \end_layout
 
 \end_inset
@@ -457,15 +475,7 @@ http://freshmeat.net/projects/libhx/
 \begin_inset space ~
 \end_inset
 
---- Freshmeat page (useful for subscription, i.
-\begin_inset space \thinspace{}
-\end_inset
-
-e.
-\begin_inset space \space{}
-\end_inset
-
-automatic notification of releases)
+--- Freecode page (useful for automatic notification of new releases)
 \end_layout
 
 \begin_layout Section
@@ -490,16 +500,8 @@ make install
 \end_layout
 
 \begin_layout Standard
-Pay attention to bi-arch Linux distributions where you most likely need
- to specify 
-\begin_inset Quotes eld
-\end_inset
-
-lib64
-\begin_inset Quotes erd
-\end_inset
-
- instead of 
+Pay attention to multi-lib Linux distributions where you most likely need
+ to specify a different libdir instead of using the default 
 \begin_inset Quotes eld
 \end_inset
 
@@ -507,53 +509,35 @@ lib
 \begin_inset Quotes erd
 \end_inset
 
-:
+.
+ In case of the Debian-style multi-arch/multi-lib proposal (
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://wiki.debian.org/Multiarch
+\end_layout
+
+\end_inset
+
+):
+\end_layout
+
+\begin_layout LyX-Code
+$ 
+\series bold
+./configure --libdir='${prefix}/lib/x86_64-linux-gnu'
+\end_layout
+
+\begin_layout Standard
+and the classic-style 32-64 2-lib distributions:
 \end_layout
 
 \begin_layout LyX-Code
 $ 
 \series bold
 ./configure --libdir='${prefix}/lib64'
-\end_layout
-
-\begin_layout Standard
-Other libdir naming besides 
-\begin_inset Quotes eld
-\end_inset
-
-
-\family typewriter
-lib
-\family default
-
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-
-\family typewriter
-lib64
-\family default
-
-\begin_inset Quotes erd
-\end_inset
-
- may be in use by different distributions, but are rarely seen (like 
-\begin_inset Quotes eld
-\end_inset
-
-
-\family typewriter
-lib32
-\family default
-
-\begin_inset Quotes erd
-\end_inset
-
-).
 \end_layout
 
 \begin_layout Subsection
@@ -855,7 +839,7 @@ int
 void
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -879,7 +863,7 @@ void
 void
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -960,7 +944,7 @@ is
 
 \family typewriter
 reinterpret_cast
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -1016,7 +1000,7 @@ reinterpret
 #include
 \series default
  <libHX/defs.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -1098,7 +1082,7 @@ long
 
 \family typewriter
 signed_cast
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -1202,7 +1186,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="7">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -1825,7 +1809,7 @@ name "sub:defs-static_cast"
 \end_inset
 
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2195,7 +2179,7 @@ const void
 
 \family typewriter
 const_cast
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2339,8 +2323,25 @@ type
 \end_layout
 
 \begin_layout Standard
-As indirection levels above 3 are really unlikely, having only these three
- type-checking cast macros was deemed sufficient.
+As indirection levels above 3 are really unlikely
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See 
+\begin_inset Quotes eld
+\end_inset
+
+Three Star Programmer
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, having only these three type-checking cast macros was deemed sufficient.
  The only place where libHX even uses a level\SpecialChar \nobreakdash-
 3 indirection is in the option
  parser.
@@ -2357,7 +2358,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
@@ -2450,6 +2451,14 @@ Conversion is permitted when expression and target type are from the table.
 \end_layout
 
 \begin_layout Standard
+It is currently not possible to use 
+\family typewriter
+const_cast
+\family default
+1/2/3 on pointers to structures whose member structure is unknown.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -2466,7 +2475,7 @@ All macros in this section are available through
 #include <libHX/defs.h>
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2490,7 +2499,7 @@ Preprocessor
 #define
 \series default
  HX_STRINGIFY(s)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2522,7 +2531,7 @@ Sizes
 #define
 \series default
  HXSIZEOF_Z16
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2542,7 +2551,7 @@ HXSIZEOF_Z16
 #define
 \series default
  HXSIZEOF_Z32
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2562,7 +2571,7 @@ HXSIZEOF_Z32
 #define
 \series default
  HXSIZEOF_Z64
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2599,7 +2608,7 @@ Locators
 long
 \series default
  offsetof(type, member);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2614,16 +2623,16 @@ offsetof
 \begin_inset Newline newline
 \end_inset
 
-
+output_type 
 \series bold
-output_type *
+*
 \series default
 containerof(
 \series bold
 input_type *
 \series default
 ptr, output_type, member);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2642,14 +2651,14 @@ containerof
 \series bold
 size_t
 \series default
- HXsizeof_member(struct_type, member);
-\begin_inset Index
+ FIELD_SIZEOF(struct_type, member);
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-HXsizeof_member
+FIELD_SIZEOF
 \end_layout
 
 \end_inset
@@ -2658,12 +2667,8 @@ HXsizeof_member
 \begin_inset Newline newline
 \end_inset
 
-
-\series bold
-output_type
-\series default
- HXtypeof_member(struct_type, member);
-\begin_inset Index
+output_type HXtypeof_member(struct_type, member);
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2809,9 +2814,25 @@ struct
 \begin_layout Standard
 
 \family typewriter
+FIELD_SIZEOF
+\family default
+ (formerly 
+\family typewriter
 HXsizeof_member
 \family default
- and 
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXsizeof_member
+\end_layout
+
+\end_inset
+
+) and 
 \family typewriter
 HXtypeof_member
 \family default
@@ -2824,7 +2845,7 @@ HXtypeof_member
 \series bold
 char
 \series default
- padding[HXsizeof_member(
+ padding[FIELD_SIZEOF(
 \series bold
 struct
 \series default
@@ -2861,7 +2882,7 @@ implemented as a macro
  */
 \series default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2904,6 +2925,42 @@ Compile-time build checks
 \begin_layout LyX-Code
 
 \series bold
+int
+\series default
+ BUILD_BUG_ON_EXPR(
+\series bold
+bool
+\series default
+ condition); 
+\series bold
+/* 
+\family roman
+\series default
+\shape italic
+implemented as a macro
+\family default
+\series bold
+\shape default
+ */
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+BUILD_BUG_ON_EXPR
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
 void
 \series default
  BUILD_BUG_ON(
@@ -2923,7 +2980,7 @@ implemented as a macro
  */
 \series default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2944,6 +3001,154 @@ condition
 \family default
  evaluates to true.
  If not implemented for a compiler, it will be a no-op.
+ 
+\family typewriter
+BUILD_BUG_ON
+\family default
+ is meant to be used as a standalone statement, while 
+\family typewriter
+BUILD_\SpecialChar \-
+BUG_\SpecialChar \-
+ON_\SpecialChar \-
+EXPR
+\family default
+ is for when a check is to occur within an expression, that latter of which
+ is useful for within macros when one cannot, or does not want to use multiple
+ statements.
+\end_layout
+
+\begin_layout LyX-Code
+type DEMOTE_TO_PTR(type expr); 
+\series bold
+/* 
+\family roman
+\series default
+\shape italic
+macro
+\family default
+\series bold
+\shape default
+ */
+\end_layout
+
+\begin_layout Standard
+Changes the type of expr to pointer type: If 
+\family typewriter
+expr
+\family default
+ of array type class, changes it to a pointer to the first element.
+ If 
+\family typewriter
+expr
+\family default
+ of function type class, changes it to a pointer to the function.
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+int
+\series default
+ main(
+\series bold
+void
+\series default
+);
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+int (*
+\series default
+fp
+\series bold
+)
+\series default
+(
+\series bold
+void
+\series default
+);
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+char
+\series default
+ a
+\series bold
+[
+\series default
+123
+\series bold
+]
+\series default
+;
+\begin_inset Newline newline
+\end_inset
+
+DEMOTE_TO_PTR(main); 
+\series bold
+/* 
+\family roman
+\series default
+\shape italic
+yields 
+\series bold
+int (*)
+\series default
+(
+\series bold
+void
+\series default
+);
+\family default
+\series bold
+\shape default
+ */
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+DEMOTE_TO_PTR(fp);   
+\series bold
+/* 
+\series default
+also yields 
+\family roman
+\series bold
+\shape italic
+int (*)
+\series default
+(
+\series bold
+void
+\series default
+);
+\family default
+\series bold
+\shape default
+ */
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+DEMOTE_TO_PTR(a);    
+\series bold
+/* 
+\series default
+yields 
+\family roman
+\series bold
+\shape italic
+char *
+\family default
+\shape default
+ */
 \end_layout
 
 \begin_layout Subsection
@@ -2956,7 +3161,7 @@ UNIX file modes
 #define
 \series default
  S_IRUGO   (S_IRUSR | S_IRGRP | S_IROTH)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2976,7 +3181,7 @@ S_IRUGO
 #define
 \series default
  S_IWUGO   (S_IWUSR | S_IWGRP | S_IWOTH)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -2996,7 +3201,7 @@ S_IWUGO
 #define
 \series default
  S_IXUGO   (S_IXUSR | S_IXGRP | S_IXOTH)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3016,7 +3221,7 @@ S_IXUGO
 #define
 \series default
  S_IRWXUGO (S_IRUGO | S_IWUGO | S_IXUGO)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3064,6 +3269,131 @@ S_IRUSR
 .
 \end_layout
 
+\begin_layout Subsection
+VC runtime format specifiers
+\end_layout
+
+\begin_layout Standard
+The Microsoft Visual C runtime (a weak libc) uses non-standard format specifiers
+ for certain types.
+ Whereas C99 specifies 
+\begin_inset Quotes eld
+\end_inset
+
+z
+\begin_inset Quotes erd
+\end_inset
+
+ for 
+\family typewriter
+size_t
+\family default
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+ll
+\begin_inset Quotes erd
+\end_inset
+
+ for long long, MSVCRT users must use 
+\begin_inset Quotes eld
+\end_inset
+
+I
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+I64
+\begin_inset Quotes erd
+\end_inset
+
+ (forming 
+\family typewriter
+%Id
+\family default
+ instead of 
+\family typewriter
+%zd
+\family default
+ for 
+\family typewriter
+ssize_t
+\family default
+, for example).
+ libHX provides two convenience macros for this:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+#define
+\series default
+ HX_SIZET_FMT    "z"
+\family roman
+\shape italic
+ or 
+\family default
+\shape default
+"I"
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_SIZET_FMT
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+#define
+\series default
+ HX_LONGLONG_FMT "ll"
+\family roman
+\shape italic
+ or 
+\family default
+\shape default
+"I64"
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_LONGLONG_FMT
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These may be used together with printf or scanf:
+\end_layout
+
+\begin_layout LyX-Code
+printf("struct timespec is of size %" HX_SIZET_FMT "u
+\backslash
+n",
+\begin_inset Newline newline
+\end_inset
+
+       
+\series bold
+sizeof
+\series default
+(struct timespec));
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
@@ -3081,7 +3411,7 @@ Miscellaneous functions
 #include
 \series default
  <libHX/misc.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3109,7 +3439,7 @@ int
 unsigned long
 \series default
  z);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3133,7 +3463,7 @@ int
 unsigned long
 \series default
  z);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3165,7 +3495,7 @@ ptr,
 unsigned int
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3189,7 +3519,7 @@ void
 char **
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3206,14 +3536,14 @@ HX_zvecfree
 
 
 \series bold
-int
+unsigned int
 \series default
  HX_zveclen(
 \series bold
 const char *const *
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3297,12 +3627,372 @@ NULL
 Time functions
 \end_layout
 
+\begin_layout Standard
+Time in POSIX systems is represented in 
+\family typewriter
+struct timespec
+\family default
+.
+ This structure is composed of two members: one integer for the number of
+ full seconds in the time value, and one integer for the number of nanoseconds
+ that remain when subtracting the full seconds from the time value.
+ POSIX leaves it unspecified how negative time is to be represented with
+ this structure, so I have devised an algebra for use with the same struct
+ that gives negative time support.
+\end_layout
+
+\begin_layout Standard
+Since integers often cannot store negative zero (due to e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+\begin_inset space \space{}
+\end_inset
+
+use of 2s complements in the language implementation), we will store the
+ minus sign in the nanosecond member if the integral second part is zero.
+ This gives us the property that we can test for negative time by looking
+ for whether at least one member of the structure is negative.
+ Also, we want to avoid storing the minus in both members to somewhat aid
+ the pretty-printing construct often seen,
+\end_layout
+
+\begin_layout LyX-Code
+printf("%ld.%09ld
+\backslash
+n", (long)ts.tv_sec, ts.tv_nsec);
+\end_layout
+
+\begin_layout Standard
+The number of combinations of a (non-zero) negative number, zero and a (non-zero
+) positive number is small, so we can actually just exhaustively list them
+ all.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Representation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time value
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ -1,-1\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+illegal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ 0,-1\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.1
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ 1,-1\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+illegal
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ -1,0\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1.0
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ 0,0\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ 1,0\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ -1,1\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1.1
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ 0,1\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ 1,1\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.1
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The set of so-extended valid timespecs is therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+K=\left\{ \left(i,f\right):i,f\in\mathbb{Z}\wedge i\neq0\wedge0\leq f<10^{9}\right\} \cup\left\{ \left(i,f\right):i=0\wedge f\in\mathbb{Z}\wedge-10^{9}<f<10^{9}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Function list
+\end_layout
+
 \begin_layout LyX-Code
 
 \series bold
 #include
 \series default
- <libHX/time.h>
+ <libHX/misc.h>
 \begin_inset Newline newline
 \end_inset
 
@@ -3312,21 +4002,9 @@ Time functions
 
 
 \series bold
-void
+bool
 \series default
- HX_diff_timespec(
-\series bold
-struct
-\series default
- timespec 
-\series bold
-*
-\series default
-delta,
-\begin_inset Newline newline
-\end_inset
-
-    
+ HX_timespec_isneg(
 \series bold
 const struct
 \series default
@@ -3334,22 +4012,12 @@ const struct
 \series bold
 *
 \series default
-p, 
-\series bold
-const struct
-\series default
- timespec 
-\series bold
-*
-\series default
-q);
-\begin_inset Index
+p);
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-
-\family typewriter
-HX_diff_timespec
+HX_timespec_isneg
 \end_layout
 
 \end_inset
@@ -3360,9 +4028,249 @@ HX_diff_timespec
 
 
 \series bold
-void
+struct
 \series default
- HX_diff_timeval(
+ timespec 
+\series bold
+*
+\series default
+HX_timespec_neg(
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+result,
+\begin_inset Newline newline
+\end_inset
+
+    
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+p);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_timespec_neg
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+HX_timespec_add(
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+result,
+\begin_inset Newline newline
+\end_inset
+
+    
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+p, 
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+q);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_timespec_add
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+HX_timespec_sub(
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+delta,
+\begin_inset Newline newline
+\end_inset
+
+    
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+p, 
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+q);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_timespec_sub
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+HX_timespec_mul(
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+delta,
+\begin_inset Newline newline
+\end_inset
+
+    
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+p, 
+\series bold
+int
+\series default
+ f);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_timespec_mul
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+HX_timespec_mulf(
+\series bold
+struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+delta,
+\begin_inset Newline newline
+\end_inset
+
+    
+\series bold
+const struct
+\series default
+ timespec 
+\series bold
+*
+\series default
+p, 
+\series bold
+double
+\series default
+ f);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_timespec_mulf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+struct
+\series default
+ timeval 
+\series bold
+*
+\series default
+HX_timeval_sub(
 \series bold
 struct
 \series default
@@ -3391,13 +4299,13 @@ const struct
 *
 \series default
 q);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-HX_diff_timeval
+HX_timeval_sub
 \end_layout
 
 \end_inset
@@ -3431,7 +4339,7 @@ b,
 int
 \series default
  mode);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3448,7 +4356,70 @@ HX_time_compare
 \begin_layout Description
 
 \family typewriter
-HX_diff_timespec
+HX_timespec_isneg
+\family default
+ Determines whether a timespec structure represents (non-zero) negative
+ time.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_timespec_neg
+\family default
+ Computes the negation of the time specified by 
+\family typewriter
+p
+\family default
+.
+ 
+\family typewriter
+result
+\family default
+ and 
+\family typewriter
+p
+\family default
+ may point to the same structure.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_timespec_add
+\family default
+ Calculates the sum of the two times specified by 
+\family typewriter
+p
+\family default
+ and 
+\family typewriter
+q
+\family default
+, which are of type 
+\family typewriter
+struct timespec
+\family default
+.
+ Any of 
+\family typewriter
+result
+\family default
+, 
+\family typewriter
+p
+\family default
+ and 
+\family typewriter
+q
+\family default
+ may point to the same structure.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_timespec_sub
 \family default
  Calculates the difference between the two timepoints p and q, which are
  of type 
@@ -3461,7 +4432,39 @@ struct timespec
 \begin_layout Description
 
 \family typewriter
-HX_diff_timeval
+HX_timespec_mul
+\family default
+ Multiplies the time quantum in 
+\family typewriter
+p
+\family default
+ by 
+\family typewriter
+f
+\family default
+.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_timespec_mulf
+\family default
+ Multiplies the time quantum in 
+\family typewriter
+p
+\family default
+ by 
+\family typewriter
+f
+\family default
+.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_timeval_sub
 \family default
  Calculates the difference between the two timepoints p and q, which are
  of type 
@@ -3522,6 +4525,106 @@ b
 \end_layout
 
 \begin_layout Standard
+The macros 
+\family typewriter
+HX_TIMESPEC_FMT
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_TIMESPEC_FMT
+\end_layout
+
+\end_inset
+
+ and 
+\family typewriter
+HX_TIMESPEC_EXP
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_TIMESPEC_EXP
+\end_layout
+
+\end_inset
+
+ can be used for passing and printing a 
+\family typewriter
+struct timespec
+\family default
+ using the *
+\family typewriter
+printf
+\family default
+ function family:
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+struct
+\series default
+ timespec p;
+\begin_inset Newline newline
+\end_inset
+
+clock_gettime(CLOCK_MONOTONIC, &p);
+\begin_inset Newline newline
+\end_inset
+
+printf("Now: " HX_TIMESPEC_FMT, HX_TIMESPEC_EXP(&p));
+\end_layout
+
+\begin_layout Standard
+Similarly, 
+\family typewriter
+HX_TIMEVAL_FMT
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_TIMEVAL_FMT
+\end_layout
+
+\end_inset
+
+ and 
+\family typewriter
+HX_TIMEVAL_EXP
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_TIMEVAL_EXP
+\end_layout
+
+\end_inset
+
+ exist for the older 
+\family typewriter
+struct timeval
+\family default
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage clearpage
 \end_inset
 
@@ -3558,7 +4661,7 @@ type
 unsigned int
 \series default
  bits);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3586,7 +4689,7 @@ bmap,
 unsigned int
 \series default
  bit);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3614,7 +4717,7 @@ bmap,
 unsigned int
 \series default
  bit);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3642,7 +4745,7 @@ bmap,
 unsigned int
 \series default
  bit);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3829,21 +4932,37 @@ name "sec:maps"
 \end_layout
 
 \begin_layout Standard
-A map, also known as associative array, is a collection of key-value pairs.
- The underlying storage mechanism may not be an array however.
- Each key is unique and has an associated value.
+A map is a collection of key-value pairs.
+ (Some languages, such as Perl, also call them 
+\begin_inset Quotes eld
+\end_inset
+
+associative array
+\begin_inset Quotes erd
+\end_inset
+
+ or just 
+\begin_inset Quotes eld
+\end_inset
+
+hash
+\begin_inset Quotes erd
+\end_inset
+
+, however, the underlying storage mechanism may not be an array or a hash,
+ however.) Each key is unique and has an associated value.
  Keys can be any data desired; HXmap allows to specify your own key and
  data handling functions so they can be strings, raw pointers, or complex
  structures.
 \end_layout
 
 \begin_layout Standard
-To access any map-related functions, #include <
+To access any map-related functions, 
 \family typewriter
-libHX\SpecialChar \slash{}
-map.h
+#include <libHX\SpecialChar \slash{}
+map.h>
 \family default
->.
+.
 \end_layout
 
 \begin_layout Subsection
@@ -3876,7 +4995,7 @@ struct HXbtree
 struct
 \series default
  HXmap {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -3920,13 +5039,11 @@ items
 flags
 \family default
  The current behavior flags for the map.
- While implementation-private bits are exposed to not necessarily waste
- space, one should only modify the public bits.
- Currently, only 
+ While implementation-private bits are exposed, only 
 \family typewriter
 HXMAP_NOREPLACE
 \family default
- is allowed to be (un)set by the developer while a map exists.
+ is currently allowed to be (un)set by the developer while a map exists.
 \end_layout
 
 \begin_layout Standard
@@ -3943,7 +5060,7 @@ struct HXmap_node
 struct
 \series default
  HXmap_node {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4024,7 +5141,12 @@ key
 \family default
  The so-called primary key, which uniquely identifies an element (a key-value
  pair) in the map.
- The memory it points to is generally owned by the map and must not be modified.
+ The memory portions that make up the key must not be modified.
+ (If the key changes, so does its hash value and/or position index, and
+ without taking that into account, writing to the key directly is going
+ to end up with an inconsistent state.
+ To change the key, you will need to delete the element and reinsert it
+ with its new key.)
 \end_layout
 
 \begin_layout Description
@@ -4045,20 +5167,24 @@ g.
 \family typewriter
 printf
 \family default
- or other varargs function, which would normally require casting of the
+ or other varargs function, which would otherwise require casting of the
  
 \family typewriter
 void
 \begin_inset space ~
 \end_inset
 
+*key
+\family default
+ member to 
+\family typewriter
+const char
+\begin_inset space ~
+\end_inset
+
 *
 \family default
- type of the 
-\family typewriter
-key
-\family default
- member.
+ first.
 \end_layout
 
 \begin_layout Description
@@ -4100,7 +5226,7 @@ Currently, there are two distinct map types in libHX.
 HXMAPT_DEFAULT
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4111,8 +5237,8 @@ HXMAPT_DEFAULT
 
 \end_inset
 
- No further preferences; selects any map type that the libHX maintainer
- deemed fast.
+ No further preferences or guarantees; selects any map type that the libHX
+ maintainer deemed fast.
 \end_layout
 
 \begin_layout Description
@@ -4121,7 +5247,7 @@ HXMAPT_DEFAULT
 HXMAPT_ORDERED
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4132,7 +5258,7 @@ HXMAPT_ORDERED
 
 \end_inset
 
- The map type shall be of a type that provides ordered traversal.
+ The map shall use a data structure that provides ordered traversal.
 \end_layout
 
 \begin_layout Standard
@@ -4145,7 +5271,7 @@ Specific types include:
 HXMAPT_HASH
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4164,7 +5290,7 @@ HX_MAPT_HASH
 \begin_inset Formula $\mathcal{O}\left(1\right)$
 \end_inset
 
- insertion, lookup and deletion; unordered
+ insertion, lookup and deletion; unordered.
 \end_layout
 
 \begin_layout Description
@@ -4173,7 +5299,7 @@ HX_MAPT_HASH
 HXMAPT_RBTREE
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4192,7 +5318,11 @@ HX_MAPT_RBTREE
 \begin_inset Formula $\mathcal{O}\left(\log\left(n\right)\right)$
 \end_inset
 
- insertion, lookup and deletion; ordered
+ insertion, lookup and deletion; ordered.
+\end_layout
+
+\begin_layout Standard
+These can then be used with the initialization functions:
 \end_layout
 
 \begin_layout LyX-Code
@@ -4213,7 +5343,7 @@ unsigned int
 unsigned int
 \series default
  flags);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4265,7 +5395,7 @@ size_t
 size_t
 \series default
  data_size);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4288,7 +5418,7 @@ Both the
 \family typewriter
 *_init5
 \family default
- create a new table; the latter function allows to specify the operations
+ variant creates a new map; the latter function allows to specify the operations
  in detail as well as key and data size, which may become necessary when
  using data sets which have their own way of being managed.
  The 
@@ -4301,10 +5431,30 @@ flags
 \begin_layout Description
 
 \family typewriter
+HXMAP_NONE
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXMAP_NONE
+\end_layout
+
+\end_inset
+
+ This is just a mnemonic for the value 0, indicating no flags.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
 HXMAP_NOREPLACE
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4336,7 +5486,7 @@ map->flags &= ~HXMAP_NOREPLACE;
 HXMAP_SKEY
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4384,7 +5534,7 @@ memcmp
 HXMAP_CKEY
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4408,25 +5558,34 @@ k_free
 \family default
  operations to 
 \family typewriter
-HX_strdup
-\family default
- and 
-\family typewriter
-free
-\family default
- if 
-\family typewriter
-HXMAP_SKEY
-\family default
- was also specified, otherwise sets 
-\family typewriter
 HX_memdup
 \family default
  and 
 \family typewriter
 free
 \family default
-.
+, and as such, the 
+\family typewriter
+key_size
+\family default
+ parameter must not be zero.
+ If however, 
+\family typewriter
+HXMAP_SKEY
+\family default
+ is also specified, 
+\family typewriter
+HX_strdup
+\family default
+ and 
+\family typewriter
+free
+\family default
+ will be used and 
+\family typewriter
+key_size
+\family default
+ must be zero.
 \end_layout
 
 \begin_layout Description
@@ -4435,7 +5594,7 @@ free
 HXMAP_SDATA
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4464,7 +5623,7 @@ d_free
 HXMAP_CDATA
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4487,7 +5646,7 @@ HXMAP_CDATA
 HXMAP_SCKEY
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4517,7 +5676,7 @@ CKEY
 HXMAP_SCDATA
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4547,7 +5706,7 @@ SDATA
 HXMAP_SINGULAR
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4588,6 +5747,176 @@ HXmap_add
 NULL
 \family default
 .
+\end_layout
+
+\begin_layout Subsection
+Flag combinations
+\end_layout
+
+\begin_layout Standard
+This subsection highlights the way 
+\family typewriter
+HXMAP_SKEY
+\family default
+ interacts with 
+\family typewriter
+HXMAP_CKEY
+\family default
+ and the key size.
+ The copy semantics are the same for 
+\family typewriter
+HXMAP_SDATA
+\family default
+ and 
+\family typewriter
+HXMAP_CDATA
+\family default
+.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\family typewriter
+HXMAP_SKEY
+\family default
+ is unset, 
+\family typewriter
+HXMAP_CKEY
+\family default
+ is unset
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+key_size
+\family default
+ parameter at the time of map construction is ignored.
+ The pointer value of the 
+\family typewriter
+key
+\family default
+ parameter for the 
+\family typewriter
+HXmap_add
+\family default
+ call is directly stored in the tree, and this is the key that uniquely
+ identifies the map entry and which is used for comparisons.
+ This may be used if you intend to directly map pointer values.
+\end_layout
+
+\begin_layout LyX-Code
+static struct something *x = ..., *y = ...;
+\begin_inset Newline newline
+\end_inset
+
+HXmap_add(map, &x[0], "foo");
+\begin_inset Newline newline
+\end_inset
+
+HXmap_add(map, &x[1], "bar");
+\end_layout
+
+\begin_layout Subsubsection*
+
+\family typewriter
+HXMAP_SKEY
+\family default
+ is set, 
+\family typewriter
+HXMAP_CKEY
+\family default
+ is unset
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+key_size
+\family default
+ parameter at the time of map construction is ignored.
+ The pointer value of the 
+\family typewriter
+key
+\family default
+ parameter for the 
+\family typewriter
+HXmap_add
+\family default
+ call is directly stored in the tree, but it is the C string 
+\shape italic
+pointed to
+\shape default
+ by the 
+\family typewriter
+key
+\family default
+ parameter that serves as the key.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\family typewriter
+HXMAP_SKEY
+\family default
+ is set, 
+\family typewriter
+HXMAP_CKEY
+\family default
+ is set
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+key_size
+\family default
+ parameter at the time of map construction is ignored.
+ The string pointed to by the key parameter will be duplicated, and the
+ resulting pointer will be stored in the tree.
+ Again, it is the pointed-to string that is the key.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\family typewriter
+HXMAP_SKEY
+\family default
+ is unset, 
+\family typewriter
+HXMAP_CKEY
+\family default
+ is set
+\end_layout
+
+\begin_layout Standard
+The memory block pointed to by the key parameter will be duplicated.
+ The 
+\family typewriter
+key_size
+\family default
+ parameter must be non-zero for this to successfully work.
+\end_layout
+
+\begin_layout Subsubsection*
+With separate ops
+\end_layout
+
+\begin_layout Standard
+However, when a custom 
+\family typewriter
+struct HXmap_ops
+\family default
+ is provided in the call to 
+\family typewriter
+HXmap_init5
+\family default
+, any of these semantics can be overridden.
+ Particularly, since your own ops can practically ignore 
+\family typewriter
+key_size
+\family default
+, it could be set to any value.
 \end_layout
 
 \begin_layout Subsection
@@ -4638,7 +5967,7 @@ HXmap_ops
 struct
 \series default
  HXmap_ops {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4897,7 +6226,7 @@ k_hash
 HXhash_jlookup3
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4917,7 +6246,7 @@ HXhash_jlookup3
 HXhash_djb2
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4957,7 +6286,7 @@ key,
 const void *
 \series default
 value);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -4993,7 +6322,7 @@ const struct
 const void *
 \series default
 key);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5025,7 +6354,7 @@ const struct
 const void *
 \series default
 key);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5057,7 +6386,7 @@ struct
 const void *
 \series default
 key);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5085,7 +6414,7 @@ struct
 *
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5117,7 +6446,7 @@ const struct
 *
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5159,7 +6488,7 @@ When
 HXMAP_SINGULAR
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5442,7 +6771,7 @@ arg);
 HXmap_travinit
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5480,7 +6809,7 @@ NULL
 HXmap_traverse
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5513,7 +6842,7 @@ NULL
 HXmap_travfree
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5533,7 +6862,7 @@ HXmap_travfree
 HXmap_qfe
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5587,7 +6916,7 @@ HXmap_travinit
 HXMAP_NOFLAGS
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5611,7 +6940,7 @@ HXMAP_NOFLAGS
 HXMAP_DTRAV
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -5800,7 +7129,11 @@ size_t
 \begin_inset Newline newline
 \end_inset
 
-        return strcasecmp(a, b);
+        
+\series bold
+return
+\series default
+ strcasecmp(a, b);
 \begin_inset Newline newline
 \end_inset
 
@@ -5836,7 +7169,8 @@ dsize
 \end_layout
 
 \begin_layout Standard
-The hackish way:
+A hackish way (which wholly depends on the C implementation and use of extra
+ safeguards is a must):
 \end_layout
 
 \begin_layout LyX-Code
@@ -5857,9 +7191,33 @@ void *
 \end_inset
 
 };
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout LyX-Code
+BUILD_BUG_ON(
+\series bold
+sizeof
+\series default
+(DEMOTE_TO_PTR(strcasecmp)) > 
+\series bold
+sizeof
+\series default
+(void *));
+\begin_inset Newline newline
+\end_inset
+
+BUILD_BUG_ON(
+\series bold
+sizeof
+\series default
+(DEMOTE_TO_PTR(strcasecmp)) > 
+\series bold
+sizeof
+\series default
+(icase.k_compare));
+\begin_inset Newline newline
+\end_inset
+
 HXmap_init5(HXMAPT_RBTREE, HXMAP_SKEY, &icase, 0, 
 \shape italic
 dsize
@@ -6261,7 +7619,7 @@ Structural definition
 #include
 \series default
  <libHX/deque.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6285,7 +7643,7 @@ libHX/deque.h
 struct
 \series default
  HXdeque {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6345,7 +7703,7 @@ ptr;
 struct
 \series default
  HXdeque_node {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6461,7 +7819,7 @@ HXdeque_init(
 void
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6489,7 +7847,7 @@ struct
 *
 \series default
 dq);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6517,7 +7875,7 @@ struct
 *
 \series default
 dq);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6557,7 +7915,7 @@ xfree
 void *
 \series default
 ));
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6589,7 +7947,7 @@ dq,
 unsigned int *
 \series default
 num);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6722,7 +8080,7 @@ dq,
 void *
 \series default
 ptr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6758,7 +8116,7 @@ dq,
 void *
 \series default
 ptr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6786,7 +8144,7 @@ struct
 *
 \series default
 dq);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6814,7 +8172,7 @@ struct
 *
 \series default
 dq);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6858,7 +8216,7 @@ struct
 *
 \series default
 node);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -6886,7 +8244,7 @@ struct
 *
 \series default
 node);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7049,7 +8407,7 @@ dq,
 const void *
 \series default
 ptr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7081,7 +8439,7 @@ dq,
 void *
 \series default
 ptr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7653,7 +9011,7 @@ Synopsis
 #include
 \series default
  <libHX/list.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7677,7 +9035,7 @@ libHX/list.h
 struct
 \series default
  HXlist_head {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7717,7 +9075,7 @@ All fields considered private
 \end_inset
 
 HXLIST_HEAD_INIT(name);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7733,7 +9091,7 @@ HXLIST_HEAD_INIT
 \end_inset
 
 HXLIST_HEAD(name);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7761,7 +9119,7 @@ struct
 *
 \series default
 list);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7797,7 +9155,7 @@ struct
 *
 \series default
 elem);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7833,7 +9191,7 @@ struct
 *
 \series default
 elem);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7861,7 +9219,7 @@ struct
 *
 \series default
 element);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -7889,7 +9247,7 @@ const struct
 *
 \series default
 list);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8024,7 +9382,7 @@ struct HXlist_head
 .
  Lists can either be traversed in forward direction, or, using the 
 \family typewriter
-_prev
+_rev
 \family default
  variants, in reverse direction.
  The 
@@ -8042,7 +9400,7 @@ n
 
 \begin_layout LyX-Code
 HXlist_for_each(pos, head)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8057,14 +9415,14 @@ HXlist_for_each
 \begin_inset Newline newline
 \end_inset
 
-HXlist_for_each_prev(pos, head)
-\begin_inset Index
+HXlist_for_each_rev(pos, head)
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-HXlist_for_each_prev
+HXlist_for_each_rev
 \end_layout
 
 \end_inset
@@ -8074,7 +9432,7 @@ HXlist_for_each_prev
 \end_inset
 
 HXlist_for_each_safe(pos, n, head)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8089,14 +9447,14 @@ HXlist_for_each_safe
 \begin_inset Newline newline
 \end_inset
 
-HXlist_for_each_prev_safe(pos, n, head)
-\begin_inset Index
+HXlist_for_each_rev_safe(pos, n, head)
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-HXlist_for_each_prev_safe
+HXlist_for_each_rev_safe
 \end_layout
 
 \end_inset
@@ -8115,7 +9473,7 @@ HXlist_for_each
 \begin_layout Description
 
 \family typewriter
-HXlist_for_each_prev
+HXlist_for_each_rev
 \family default
  Reverse iteration over the list heads.
 \end_layout
@@ -8135,7 +9493,7 @@ pos
 \begin_layout Description
 
 \family typewriter
-HXlist_for_each_prev_safe
+HXlist_for_each_rev_safe
 \family default
  Reverse iteration over the list heads that is safe against freeing 
 \family typewriter
@@ -8179,7 +9537,7 @@ member
 
 \begin_layout LyX-Code
 HXlist_for_each_entry(pos, head, member)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8195,7 +9553,7 @@ HXlist_for_each_entry
 \end_inset
 
 HXlist_for_each_entry_rev(pos, head, member)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8211,7 +9569,7 @@ HXlist_for_each_entry_rev
 \end_inset
 
 HXlist_for_each_entry_safe(pos, n, head, member)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8879,7 +10237,7 @@ Synopsis
 #include
 \series default
  <libHX/list.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8903,7 +10261,7 @@ libHX/list.h
 struct
 \series default
  HXclist_head {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8975,7 +10333,7 @@ private
 \end_inset
 
 HXCLIST_HEAD_INIT(name);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -8991,7 +10349,7 @@ HXCLIST_HEAD_INIT
 \end_inset
 
 HXCLIST_HEAD(name);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9019,7 +10377,7 @@ struct
 *
 \series default
 head);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9055,7 +10413,7 @@ struct
 *
 \series default
 new_node);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9091,7 +10449,7 @@ struct
 *
 \series default
 new_node);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9123,7 +10481,7 @@ head,
 type
 \series default
 , member);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9155,7 +10513,7 @@ head,
 type
 \series default
 , member);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9191,7 +10549,7 @@ HXlist_chead
 *
 \series default
 node);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9314,7 +10672,7 @@ Locating chars
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9358,7 +10716,7 @@ needle,
 size_t
 \series default
  nsize);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9390,13 +10748,39 @@ now,
 char
 \series default
  delimiter);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
 HX_strbchr
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+char *
+\series default
+HX_strchr2(
+\series bold
+const char *
+\series default
+s, 
+\series bold
+const char *
+\series default
+accept);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_strchr2
 \end_layout
 
 \end_inset
@@ -9418,7 +10802,7 @@ s,
 const char *
 \series default
 reject);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9496,7 +10880,7 @@ start
 strrchr
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9517,6 +10901,39 @@ now
 \begin_layout Description
 
 \family typewriter
+HX_strchr2
+\family default
+ This function searches the string 
+\family typewriter
+s
+\family default
+ for any set of bytes that are not specified in the second argument, 
+\family typewriter
+n
+\family default
+.
+ In this regard, the function is the opposite to 
+\family typewriter
+strpbrk
+\family default
+(3)
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+strpbrk
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
 HX_strrcspn
 \family default
  Works like 
@@ -9524,7 +10941,7 @@ HX_strrcspn
 strcspn
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9550,7 +10967,7 @@ Extraction
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9578,7 +10995,7 @@ HX_basename(
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9597,18 +11014,18 @@ HX_basename
 \series bold
 char *
 \series default
-HX_basename_safe(
+HX_basename_exact(
 \series bold
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-HX_basename_safe
+HX_basename_exact
 \end_layout
 
 \end_inset
@@ -9626,7 +11043,7 @@ HX_dirname(
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9660,7 +11077,7 @@ long
 long
 \series default
  length);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9858,7 +11275,7 @@ In-place transformations
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9886,7 +11303,7 @@ HX_chomp(
 char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9912,7 +11329,7 @@ size_t
 char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9933,12 +11350,34 @@ HX_strltrim
 \series bold
 char *
 \series default
+HX_stpltrim(
+\series bold
+const char *
+\series default
+s);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_stpltrim
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+char *
+\series default
 HX_strlower(
 \series bold
 char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9964,7 +11403,7 @@ HX_strrev(
 char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -9990,7 +11429,7 @@ size_t
 char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10016,7 +11455,7 @@ HX_strupper(
 char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10064,6 +11503,18 @@ isspace
 \family default
 (3) return true) on the left edge of the string.
  Returns the number of characters that were stripped.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_stpltrim
+\family default
+ Returns a pointer to the first non-whitespace character in 
+\family typewriter
+s
+\family default
+.
 \end_layout
 
 \begin_layout Description
@@ -10128,7 +11579,7 @@ Out-of-place quoting transforms
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10164,7 +11615,7 @@ unsigned int
 char **
 \series default
 free_me);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10204,7 +11655,7 @@ type
 HXQUOTE_SQUOTE
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10253,7 +11704,7 @@ Backslash
 HXQUOTE_DQUOTE
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10311,7 +11762,7 @@ Backslash
 HXQUOTE_HTML
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10363,7 +11814,7 @@ HXQUOTE_HTML
 HXQUOTE_LDAPFLT
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10375,7 +11826,27 @@ HXQUOTE_LDAPFLT
 \end_inset
 
  Escape the string using backslash-plus-hexcode notation as described in
- RFC 4515, to make it suitable for use in an LDAP search filter.
+ RFC 4515
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://tools.ietf.org/html/rfc4515
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, to make it suitable for use in an LDAP search filter.
 \end_layout
 
 \begin_layout Description
@@ -10384,7 +11855,7 @@ HXQUOTE_LDAPFLT
 HXQUOTE_LDAPRDN
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10396,8 +11867,126 @@ HXQUOTE_LDAPRDN
 \end_inset
 
  Escape the string using backslash-plus-hexcode notation as described in
- RFC 4514, to make it suitable for use in an LDAP Relative Distinguished
- Name.
+ RFC 4514
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://tools.ietf.org/html/rfc4514
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, to make it suitable for use in an LDAP Relative Distinguished Name.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HXQUOTE_BASE64
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXQUOTE_BASE64
+\end_layout
+
+\end_inset
+
+ Transform the string to BASE64, as described in RFC 4648
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://tools.ietf.org/html/rfc4648
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HXQUOTE_URIENC
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXQUOTE_URIENC
+\end_layout
+
+\end_inset
+
+ Escape the string so that it becomes a valid part for an URI.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HXQUOTE_SQLSQUOTE
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXQUOTE_SQLSQUOTE
+\end_layout
+
+\end_inset
+
+ Escape all single quotes in the string by double single-quotes, as required
+ for using it in a single-quoted SQL string.
+ No surrounding quotes will be generated to facilitate concatenating of
+ HX_strquote results.
+\end_layout
+
+\begin_layout Standard
+Specifying an unrecognized type will result in 
+\family typewriter
+NULL
+\family default
+ being returned and 
+\family typewriter
+errno
+\family default
+ be set to 
+\family typewriter
+EINVAL
+\family default
+.
 \end_layout
 
 \begin_layout Standard
@@ -10547,7 +12136,7 @@ Tokenizing
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10591,7 +12180,7 @@ fields,
 int
 \series default
  max);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10629,7 +12218,7 @@ fields,
 int
 \series default
  max);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10667,7 +12256,7 @@ int
 char **
 \series default
 stack);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10697,7 +12286,7 @@ sp,
 const char *
 \series default
 delimiters);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10727,7 +12316,7 @@ sp,
 const char *
 \series default
 dstr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -10978,7 +12567,7 @@ Size-bounded string ops
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11012,7 +12601,7 @@ src,
 size_t
 \series default
  length);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11046,7 +12635,7 @@ src,
 size_t
 \series default
  length);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11084,7 +12673,7 @@ size_t
 size_t
 \series default
  slen);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11093,6 +12682,32 @@ status open
 \size normal
 \color none
 HX_strlncat
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+size_t
+\series default
+ HX_strnlen(
+\series bold
+const char *
+\series default
+src, 
+\series bold
+size_t
+\series default
+ max);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_strnlen
 \end_layout
 
 \end_inset
@@ -11114,7 +12729,7 @@ HX_strlcpy
 strlcat
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11130,7 +12745,7 @@ strlcat
 strlcpy
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11172,6 +12787,20 @@ dest
 -terminated.
 \end_layout
 
+\begin_layout Standard
+
+\family typewriter
+HX_strnlen
+\family default
+ will return the length of the input string or the upper bound given by
+ 
+\family typewriter
+max
+\family default
+, whichever is less.
+ It will not attempt to access more than this many bytes in the input buffer.
+\end_layout
+
 \begin_layout Subsection
 Allocation-related
 \end_layout
@@ -11182,7 +12811,7 @@ Allocation-related
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11214,7 +12843,7 @@ ptr,
 size_t
 \series default
  length);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11240,7 +12869,7 @@ HX_strdup(
 const char *
 \series default
 str);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11249,6 +12878,32 @@ status open
 \size normal
 \color none
 HX_strdup
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+char *
+\series default
+HX_strndup(
+\series bold
+const char *
+\series default
+str, 
+\series bold
+size_t
+\series default
+ max);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_strndup
 \end_layout
 
 \end_inset
@@ -11280,7 +12935,7 @@ const char *
 pb);
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -11351,6 +13006,15 @@ length
 ptr
 \family default
  and returns a pointer to the new memory block.
+ 
+\family typewriter
+ptr
+\family default
+ may not be 
+\family typewriter
+NULL
+\family default
+.
 \end_layout
 
 \begin_layout Description
@@ -11364,6 +13028,40 @@ HX_strdup
 strdup
 \family default
 , but the latter may not be available on all platforms.
+ 
+\family typewriter
+str
+\family default
+ may be 
+\family typewriter
+NULL
+\family default
+, in which case 
+\family typewriter
+NULL
+\family default
+ is also returned.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_strndup
+\family default
+ Duplicates the input string, but copies at most 
+\family typewriter
+max
+\family default
+ characters.
+ (The resulting string will be NUL-terminated of course.) 
+\family typewriter
+str
+\family default
+ may not be 
+\family typewriter
+NULL
+\family default
+.
 \end_layout
 
 \begin_layout Description
@@ -12169,7 +13867,7 @@ Constructors, destructors
 #include
 \series default
  <libHX/string.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12197,7 +13895,7 @@ HXmc_strinit(
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12225,7 +13923,7 @@ ptr,
 size_t
 \series default
  size);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12280,7 +13978,7 @@ void
 *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12304,7 +14002,7 @@ void
 **
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12361,7 +14059,7 @@ mc,
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12391,7 +14089,7 @@ mc,
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12425,7 +14123,7 @@ ptr,
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12459,7 +14157,7 @@ ptr,
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12493,7 +14191,7 @@ ptr,
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12531,7 +14229,7 @@ ptr,
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12563,7 +14261,7 @@ size_t
 size_t
 \series default
  len);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12763,7 +14461,7 @@ mc,
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12793,7 +14491,7 @@ mc,
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12823,7 +14521,7 @@ mc,
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12855,7 +14553,7 @@ size_t
 const char *
 \series default
 s);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -12922,7 +14620,7 @@ mc, FILE
 *
 \series default
 fp);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13177,7 +14875,7 @@ printf
 printf
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13189,7 +14887,7 @@ printf
 \end_inset
 
 , at least from GNU libc, has something vaguely similar: positional parameters
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13221,7 +14919,7 @@ Initialization, use and deallocation
 #include
 \series default
  <libHX/option.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13253,7 +14951,7 @@ HXformat_init(
 void
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13283,7 +14981,7 @@ struct
 *
 \series default
 table);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13329,7 +15027,7 @@ ptr,
 unsigned int
 \series default
  ptr_type);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13449,7 +15147,7 @@ HXTYPE_*
 , is also used for deferred types, the constant 
 \family typewriter
 HXFORMAT_IMMED
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13564,7 +15262,7 @@ reference "fig:hxformat-immediate-deferred"
 HXTYPE_STRP
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13603,7 +15301,7 @@ HXformat_*printf
 HXTYPE_BOOL
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13647,7 +15345,7 @@ U
 CHAR
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13659,7 +15357,7 @@ HXTYPE_CHAR
 \end_inset
 
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13675,7 +15373,7 @@ HXTYPE_UCHAR
 SHORT
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13687,7 +15385,7 @@ HXTYPE_SHORT
 \end_inset
 
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13703,7 +15401,7 @@ HXTYPE_USHORT
 INT
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13715,7 +15413,7 @@ HXTYPE_INT
 \end_inset
 
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13731,7 +15429,7 @@ HXTYPE_UINT
 LONG
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13743,7 +15441,7 @@ HXTYPE_LONG
 \end_inset
 
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13759,7 +15457,7 @@ HXTYPE_ULONG
 LLONG
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13771,7 +15469,7 @@ HXTYPE_LLONG
 \end_inset
 
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13815,7 +15513,7 @@ HXTYPE_
 FLOAT
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13831,7 +15529,7 @@ HXTYPE_FLOAT
 DOUBLE
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13874,7 +15572,7 @@ Invoking the formatter
 \series bold
 int
 \series default
- HXformat2_aprintf(
+ HXformat_aprintf(
 \series bold
 struct
 \series default
@@ -13891,13 +15589,13 @@ dest,
 const char *
 \series default
 template);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-HXformat2_aprintf
+HXformat_aprintf
 \end_layout
 
 \end_inset
@@ -13910,7 +15608,7 @@ HXformat2_aprintf
 \series bold
 int
 \series default
- HXformat2_sprintf(
+ HXformat_sprintf(
 \series bold
 struct
 \series default
@@ -13931,7 +15629,7 @@ size_t
 const char *
 \series default
 template);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13939,7 +15637,7 @@ status open
 \family typewriter
 \size normal
 \color none
-HXformat2_sprintf
+HXformat_sprintf
 \end_layout
 
 \end_inset
@@ -13952,7 +15650,7 @@ HXformat2_sprintf
 \series bold
 int
 \series default
- HXformat2_fprintf(
+ HXformat_fprintf(
 \series bold
 struct
 \series default
@@ -13969,7 +15667,7 @@ filp,
 const char *
 \series default
 template);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -13977,7 +15675,7 @@ status open
 \family typewriter
 \size normal
 \color none
-HXformat2_fprintf
+HXformat_fprintf
 \end_layout
 
 \end_inset
@@ -13988,7 +15686,7 @@ HXformat2_fprintf
 \begin_layout Description
 
 \family typewriter
-HXformat2_aprintf
+HXformat_aprintf
 \family default
  Substitute placeholders in 
 \family typewriter
@@ -14011,7 +15709,7 @@ hxmc_t
 \begin_layout Description
 
 \family typewriter
-HXformat2_sprintf
+HXformat_sprintf
 \family default
  Do substitution and store the expanded result in the buffer 
 \family typewriter
@@ -14027,7 +15725,7 @@ size
 \begin_layout Description
 
 \family typewriter
-HXformat2_fprintf
+HXformat_fprintf
 \family default
  Do substituion and directly output the expansion to the given stdio stream.
 \end_layout
@@ -14043,7 +15741,7 @@ On success, the length of the expanded string is returned, excluding the
 .
  While 
 \family typewriter
-HXformat2_sprintf
+HXformat_sprintf
 \family default
  will not write more than 
 \family typewriter
@@ -14064,7 +15762,7 @@ sprintf
 \end_layout
 
 \begin_layout Standard
-The HXformat2 function family recognizes make-style like functions and recursive
+The HXformat function family recognizes make-style like functions and recursive
  expansion, described below.
 \end_layout
 
@@ -14123,8 +15821,8 @@ linux
 \end_inset
 
  next.
- Besides these variable substitutions, HXformat2 also provides function
- calls whose syntax is 
+ Besides these variable substitutions, HXformat also provides function calls
+ whose syntax is 
 \begin_inset Quotes eld
 \end_inset
 
@@ -14382,6 +16080,53 @@ command
 \begin_layout Itemize
 
 \family typewriter
+%(substr 
+\family default
+\shape italic
+text
+\family typewriter
+\shape default
+,
+\family default
+\shape italic
+offset
+\shape default
+[
+\family typewriter
+,
+\family default
+\shape italic
+length
+\shape default
+]
+\family typewriter
+)
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Extracts a substring out of the given text, starting at 
+\shape italic
+offset
+\shape default
+ and running for the given length.
+ If no length is given, will extract until the end of the string.
+ If 
+\shape italic
+offset
+\shape default
+ is negative, it specifies the offset from the end of the string.
+ If 
+\shape italic
+length
+\shape default
+ is negative, that many characters are left off the end.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
 %(snl 
 \family default
 \shape italic
@@ -14404,11 +16149,6 @@ $(shell
 )
 \family default
  statements usually is explicitly separate in libHX.
-\end_layout
-
-\begin_layout Standard
-Historical note: HXformat1 also supported functions, but only on a very
- limited and inflexible level.
 \end_layout
 
 \begin_layout Subsection
@@ -14461,11 +16201,11 @@ table = HXformat_init();
 \begin_inset Newline newline
 \end_inset
 
-HXformat2_add(table, "%(GREETING1)", b, HXTYPE_STRING);
+HXformat_add(table, "%(GREETING1)", b, HXTYPE_STRING);
 \begin_inset Newline newline
 \end_inset
 
-HXformat2_add(table, "%(GREETING2)", &c, HXTYPE_STRP);
+HXformat_add(table, "%(GREETING2)", &c, HXTYPE_STRP);
 \begin_inset Newline newline
 \end_inset
 
@@ -14483,13 +16223,13 @@ sizeof
 \begin_inset Newline newline
 \end_inset
 
-HXformat2_aprintf(...);
+HXformat_aprintf(...);
 \end_layout
 
 \begin_layout Plain Layout
 Upon calling 
 \family typewriter
-HXformat2_*printf
+HXformat_*printf
 \family default
 , 
 \family typewriter
@@ -14564,7 +16304,7 @@ HXformat_add(table, "/libhx/exec", NULL, HXTYPE_IMMED);
 \begin_inset Newline newline
 \end_inset
 
-HXformat2_aprintf(table, &result, "%(exec uname -s)");
+HXformat_aprintf(table, &result, "%(exec uname -s)");
 \end_layout
 
 \begin_layout Plain Layout
@@ -14603,6 +16343,265 @@ Using the
 
 \begin_layout Part
 Filesystem operations
+\end_layout
+
+\begin_layout Section
+Dentry operations
+\end_layout
+
+\begin_layout Subsection
+Synopsis
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+#include <libHX/io.h>
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+int
+\series default
+ HX_readlink(hxmc_t 
+\series bold
+**
+\series default
+buf, 
+\series bold
+const char *
+\series default
+path);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_readlink
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+int
+\series default
+ HX_realpath(hxmc_t 
+\series bold
+**
+\series default
+buf, 
+\series bold
+const char *
+\series default
+path, 
+\series bold
+unsigned int
+\series default
+ flags);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+HX_realpath
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+HX_readlink
+\family default
+ calls through to 
+\family typewriter
+readlink
+\family default
+ to read the target of a symbolic link, and stores the result in the memory
+ container referenced by 
+\family typewriter
+*buf
+\family default
+ (similar to 
+\family typewriter
+HX_getl
+\family default
+ semantics).
+ If 
+\family typewriter
+*buf
+\family default
+ is 
+\family typewriter
+NULL
+\family default
+, a new container will be allocated and a pointer to it stored in 
+\family typewriter
+*buf
+\family default
+.
+ The container's content is naturally zero-terminated automatically.
+ The return value of the function will be the length of the link target,
+ or negative to indicate the system error value.
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+HX_realpath
+\family default
+ will normalize the given path by transforming various path components into
+ alternate descriptions.
+ The 
+\family typewriter
+flags
+\family default
+ parameter controls its actions:
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_REALPATH_DEFAULT
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_REALPATH_DEFAULT
+\end_layout
+
+\end_inset
+
+ A mnemonic for a set of standard flags: 
+\family typewriter
+HX_\SpecialChar \-
+REALPATH_\SpecialChar \-
+SELF
+\begin_inset space ~
+\end_inset
+
+| HX_\SpecialChar \-
+REALPATH_\SpecialChar \-
+PARENT
+\family default
+.
+ Note that 
+\family typewriter
+HX_\SpecialChar \-
+REALPATH_\SpecialChar \-
+ABSOLUTE
+\family default
+, which would also be required to get libc's 
+\family typewriter
+realpath
+\family default
+(3) behavior, is not included in the set.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_REALPATH_ABSOLUTE
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_REALPATH_ABSOLUTE
+\end_layout
+
+\end_inset
+
+ Requests that the output path shall be absolute.
+ In the absence of this flag, an absolute output path will only be produced
+ if the input path is also absolute.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_REALPATH_SELF
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_REALPATH_SELF
+\end_layout
+
+\end_inset
+
+ Request resolution of 
+\begin_inset Quotes eld
+\end_inset
+
+.
+\begin_inset Quotes erd
+\end_inset
+
+ path components.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HX_REALPATH_PARENT
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HX_REALPATH_PARENT
+\end_layout
+
+\end_inset
+
+ Request resolution of 
+\begin_inset Quotes eld
+\end_inset
+
+..
+\begin_inset Quotes erd
+\end_inset
+
+ path components.
+\end_layout
+
+\begin_layout Standard
+The result is stored in a memory container whose pointer is returned through
+ 
+\family typewriter
+*buf
+\family default
+.
+ The return value of the function will be negative to indicate a possible
+ system error, or be positive non-zero for success.
 \end_layout
 
 \begin_layout Section
@@ -14648,7 +16647,7 @@ readdir
  anticipating for this scenario.
  libHX's 
 \family typewriter
-dir.c
+io.c
 \family default
  mitigates this.
 \end_layout
@@ -14662,14 +16661,14 @@ Synopsis
 \series bold
 #include
 \series default
- <libHX/misc.h>
-\begin_inset Index
+ <libHX/io.h>
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-libHX/misc.h
+libHX/io.h
 \end_layout
 
 \end_inset
@@ -14684,14 +16683,18 @@ libHX/misc.h
 
 
 \series bold
-void *
+struct
+\series default
+ HXdir 
+\series bold
+*
 \series default
 HXdir_open(
 \series bold
 const char *
 \series default
 directory);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -14714,10 +16717,14 @@ const char *
 \series default
 HXdir_read(
 \series bold
-void *
+struct
+\series default
+ HXdir 
+\series bold
+*
 \series default
 handle);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -14740,10 +16747,14 @@ void
 \series default
  HXdir_close(
 \series bold
-void *
+struct
+\series default
+ HXdir 
+\series bold
+*
 \series default
 handle);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -14817,7 +16828,7 @@ Example
 \series bold
 #include
 \series default
- <libHX/misc.h>
+ <libHX/io.h>
 \begin_inset Newline newline
 \end_inset
 
@@ -14827,7 +16838,11 @@ Example
 
 
 \series bold
-void *
+struct
+\series default
+ HXdir 
+\series bold
+*
 \series default
 dh;
 \begin_inset Newline newline
@@ -14897,14 +16912,14 @@ Synopsis
 \series bold
 #include
 \series default
- <libHX/misc.h>
-\begin_inset Index
+ <libHX/io.h>
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-libHX/misc.h
+libHX/io.h
 \end_layout
 
 \end_inset
@@ -14925,13 +16940,15 @@ int
 \series bold
 const char *
 \series default
-path);
-\begin_inset Index
+path, 
+\series bold
+unsigned int
+\series default
+ mode);
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-
-\family typewriter
 HX_mkdir
 \end_layout
 
@@ -14950,7 +16967,7 @@ int
 const char *
 \series default
 path);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -14975,7 +16992,11 @@ HX_mkdir
 \family typewriter
 path
 \family default
-, and all its parents that do not exist yet.
+ and all its parents that do not exist yet using the given 
+\family typewriter
+mode
+\family default
+.
  It is equivalent to the `
 \family typewriter
 mkdir -p
@@ -15026,14 +17047,14 @@ Synopsis
 \series bold
 #include
 \series default
- <libHX/misc.h>
-\begin_inset Index
+ <libHX/io.h>
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-libHX/misc.h
+libHX/io.h
 \end_layout
 
 \end_inset
@@ -15063,7 +17084,7 @@ dest,
 unsigned int
 \series default
  flags, ...);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15095,7 +17116,7 @@ dest,
 unsigned int
 \series default
  flags, ...);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15119,7 +17140,7 @@ Possible flags that can be used with the functions:
 HXF_KEEP
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15139,7 +17160,7 @@ HXF_KEEP
 HXF_UID
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15172,7 +17193,7 @@ HXF_GID
 HXF_GID
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15228,6 +17249,136 @@ fchmod
 HX_copy_file
 \family default
  alone (historic negligience?).
+\end_layout
+
+\begin_layout Subsection
+Filedescriptor I/O
+\end_layout
+
+\begin_layout LyX-Code
+
+\series bold
+#include
+\series default
+ <libHX/io.h>
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+libHX/io.h
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+ssize_t
+\series default
+ HXio_fullread(
+\series bold
+int
+\series default
+ fd, 
+\series bold
+void *
+\series default
+buf, 
+\series bold
+size_t
+\series default
+ size, 
+\series bold
+unsigned int
+\series default
+ flags);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXio_fullread
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+ssize_t
+\series default
+ HXio_fullwrite(
+\series bold
+int
+\series default
+ fd, 
+\series bold
+const void *
+\series default
+buf, 
+\series bold
+size_t
+\series default
+ size, 
+\series bold
+unsigned int
+\series default
+ flags);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXio_fullwrite
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since plain 
+\family typewriter
+read
+\family default
+(2) and 
+\family typewriter
+write
+\family default
+(2) may process only part of the buffer
+\begin_inset space ~
+\end_inset
+
+--- even more likely so with sockets
+\begin_inset space ~
+\end_inset
+
+---, libHX provides two functions that calls these in a loop to retry said
+ operations until the full amount has been processed.
+ Since 
+\family typewriter
+read
+\family default
+ and 
+\family typewriter
+write
+\family default
+ can also be used with socket file descriptors, so can these.
 \end_layout
 
 \begin_layout Standard
@@ -15370,7 +17521,7 @@ name "sub:option-synopsis"
 #include
 \series default
  <libHX/option.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15394,7 +17545,7 @@ libHX/option.h
 struct
 \series default
  HXoption {
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15435,22 +17586,6 @@ unsigned int
 
         
 \series bold
-int
-\series default
- ival;
-\begin_inset Newline newline
-\end_inset
-
-        
-\series bold
-const char *
-\series default
-sval;
-\begin_inset Newline newline
-\end_inset
-
-        
-\series bold
 void *
 \series default
 ptr, 
@@ -15478,6 +17613,14 @@ const struct
 *
 \series default
 );
+\begin_inset Newline newline
+\end_inset
+
+        
+\series bold
+int
+\series default
+ val;
 \begin_inset Newline newline
 \end_inset
 
@@ -15579,7 +17722,7 @@ type
 \begin_layout Description
 
 \family typewriter
-ival
+val
 \family default
  An integer value to be stored into 
 \family typewriter
@@ -15592,26 +17735,6 @@ ival
  when 
 \family typewriter
 HXTYPE_IVAL
-\family default
- is used.
-\end_layout
-
-\begin_layout Description
-
-\family typewriter
-sval
-\family default
- A string whose address will be stored into 
-\family typewriter
-*(const char
-\begin_inset space ~
-\end_inset
-
-**)ptr
-\family default
- when 
-\family typewriter
-HXTYPE_SVAL
 \family default
  is used.
 \end_layout
@@ -15642,6 +17765,32 @@ uptr
  A user-supplied pointer.
  Its value is passed verbatim to the callback, and may be used for any purpose
  the user wishes.
+ If 
+\family typewriter
+type
+\family default
+ is 
+\family typewriter
+HXTYPE_SVAL
+\family default
+, it is the value in 
+\family typewriter
+uptr
+\family default
+ that will be used to populate 
+\family typewriter
+*(const char
+\begin_inset space ~
+\end_inset
+
+**)ptr
+\family default
+.
+ (The original 
+\family typewriter
+.sval
+\family default
+ field has been removed in libHX 3.12.)
 \end_layout
 
 \begin_layout Description
@@ -15732,7 +17881,7 @@ name "sub:option-types"
 HXTYPE_NONE
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15787,7 +17936,7 @@ reference "sub:option-flags"
 HXTYPE_VAL
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15823,7 +17972,7 @@ ival
 HXTYPE_SVAL
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15859,7 +18008,7 @@ sval
 HXTYPE_BOOL
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15953,7 +18102,7 @@ false
 
 \family typewriter
 HXTYPE_STRING
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -15986,7 +18135,7 @@ HXTYPE_STRING
 HXTYPE_STRDQ
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16103,8 +18252,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="4">
-<features>
+<lyxtabular version="3" rows="12" columns="4">
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="bottom" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -16164,7 +18313,7 @@ Type of pointee
 
 \family typewriter
 HXTYPE_CHAR
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16198,7 +18347,7 @@ char
 
 \family typewriter
 HXTYPE_INT8
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16234,7 +18383,7 @@ int8_t
 
 \family typewriter
 HXTYPE_UCHAR
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16268,7 +18417,7 @@ unsigned char
 
 \family typewriter
 HXTYPE_UINT8
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16304,7 +18453,7 @@ uint8_t
 
 \family typewriter
 HXTYPE_SHORT
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16338,7 +18487,7 @@ short
 
 \family typewriter
 HXTYPE_INT16
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16374,7 +18523,7 @@ int16_t
 
 \family typewriter
 HXTYPE_USHORT
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16408,7 +18557,7 @@ unsigned short
 
 \family typewriter
 HXTYPE_UINT16
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16444,7 +18593,7 @@ uint16_t
 
 \family typewriter
 HXTYPE_INT
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16478,7 +18627,7 @@ int
 
 \family typewriter
 HXTYPE_INT32
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16514,7 +18663,7 @@ int32_t
 
 \family typewriter
 HXTYPE_UINT
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16548,7 +18697,7 @@ unsigned int
 
 \family typewriter
 HXTYPE_UINT32
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16584,7 +18733,7 @@ uint32_t
 
 \family typewriter
 HXTYPE_LONG
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16618,7 +18767,7 @@ long
 
 \family typewriter
 HXTYPE_INT64
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16654,7 +18803,7 @@ int64_t
 
 \family typewriter
 HXTYPE_ULONG
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16688,7 +18837,7 @@ unsigned long
 
 \family typewriter
 HXTYPE_UINT64
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16724,7 +18873,7 @@ uint64_t
 
 \family typewriter
 HXTYPE_LLONG
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16758,7 +18907,7 @@ long long
 
 \family typewriter
 HXTYPE_FLOAT
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16787,14 +18936,14 @@ float
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \family typewriter
 HXTYPE_ULLONG
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16810,7 +18959,7 @@ HXTYPE_ULLONG
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -16821,14 +18970,14 @@ unsigned long long
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \family typewriter
 HXTYPE_DOUBLE
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16844,13 +18993,69 @@ HXTYPE_DOUBLE
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \family typewriter
 double
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXTYPE_SIZE_T
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXTYPE_SIZE_T
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+size_t
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -16954,7 +19159,7 @@ type
 HXOPT_INC
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -16988,7 +19193,7 @@ HXOPT_DEC
 \family default
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17041,7 +19246,7 @@ reference "sub:option-example-incdec"
 HXOPT_NOT
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17068,7 +19273,7 @@ HXOPT_NOT
 HXOPT_OR
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17100,7 +19305,7 @@ transformed value.
 HXOPT_AND
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17133,7 +19338,7 @@ transformed value.
 HXOPT_XOR
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17210,7 +19415,7 @@ reference "sub:option-example-mask"
 HXOPT_OPTIONAL
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17320,7 +19525,7 @@ HXopt provides two special entries via macros:
 HXOPT_AUTOHELP
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17381,7 +19586,7 @@ HXOPT_AUTOHELP
 HXOPT_TABLEEND
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17434,7 +19639,7 @@ argv,
 unsigned int
 \series default
  flags);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17506,7 +19711,7 @@ HX_getopt
 HXOPT_PTHRU
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17551,7 +19756,7 @@ argv
 HXOPT_QUIET
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17575,7 +19780,7 @@ HXOPT_QUIET
 HXOPT_HELPONERR
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17599,7 +19804,7 @@ HXOPT_HELPONERR
 HXOPT_USAGEONERR
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17616,6 +19821,36 @@ HXOPT_USAGEONERR
  Display the short-format usage syntax when an error is encountered.
 \end_layout
 
+\begin_layout Description
+
+\family typewriter
+HXOPT_RQ_ORDER
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXOPT_RQ_ORDER
+\end_layout
+
+\end_inset
+
+ Specifying this option terminates option processing when the first non-option
+ argument in 
+\family typewriter
+argv
+\family default
+ is encountered.
+ This behavior is also implicit when the environment variable 
+\family typewriter
+POSIXLY_CORRECT
+\family default
+ is set.
+\end_layout
+
 \begin_layout Standard
 The return value can be one of the following:
 \end_layout
@@ -17623,10 +19858,30 @@ The return value can be one of the following:
 \begin_layout Description
 
 \family typewriter
--HXOPT_ERR_UNKN
+HXOPT_ERR_SUCCESS
+\family default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+HXOPT_ERR_SUCCESS
+\end_layout
+
+\end_inset
+
+ Parsing was successful.
+\end_layout
+
+\begin_layout Description
+
+\family typewriter
+HXOPT_ERR_UNKN
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17647,10 +19902,10 @@ HXOPT_ERR_UNKN
 \begin_layout Description
 
 \family typewriter
--HXOPT_ERR_VOID
+HXOPT_ERR_VOID
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17728,10 +19983,10 @@ bar
 \begin_layout Description
 
 \family typewriter
--HXOPT_ERR_MIS
+HXOPT_ERR_MIS
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -17750,11 +20005,11 @@ HXOPT_ERR_MIS
 \end_layout
 
 \begin_layout Description
-positive
+negative
 \begin_inset space ~
 \end_inset
 
-non-zero Success.
+non-zero Failure on behalf of lower-level calls; errno.
 \end_layout
 
 \begin_layout Subsection
@@ -17850,7 +20105,11 @@ static const struct
 \series bold
 return
 \series default
- HX_getopt(options_table, argc, argv, HXOPT_USAGEONERR) > 0;
+ HX_getopt(options_table, argc, argv, HXOPT_USAGEONERR) ==
+\begin_inset Newline newline
+\end_inset
+
+               HXOPT_ERR_SUCCESS;
 \begin_inset Newline newline
 \end_inset
 
@@ -18259,7 +20518,11 @@ struct
 \series bold
 if
 \series default
- (HX_getopt(options_table, &argc, &argv, HXOPT_USAGEONERR) <= 0)
+ (HX_getopt(options_table, &argc, &argv, HXOPT_USAGEONERR) !=
+\begin_inset Newline newline
+\end_inset
+
+            HXOPT_ERR_SUCCESS)
 \end_layout
 
 \begin_layout LyX-Code
@@ -18932,7 +21195,7 @@ return
 \begin_inset Newline newline
 \end_inset
 
-               HXOPT_USAGEONERR | HXOPT_DESTROY_OLD) > 0;
+               HXOPT_USAGEONERR | HXOPT_DESTROY_OLD) == HXOPT_ERR_SUCCESS;
 \begin_inset Newline newline
 \end_inset
 
@@ -18992,7 +21255,7 @@ return
 \begin_inset Newline newline
 \end_inset
 
-               HXOPT_USAGEONERR | HXOPT_DESTROY_OLD) > 0;
+               HXOPT_USAGEONERR | HXOPT_DESTROY_OLD) == HXOPT_ERR_SUCCESS;
 \begin_inset Newline newline
 \end_inset
 
@@ -19064,7 +21327,11 @@ struct
 \series bold
 if
 \series default
- (HX_getopt(option_table, argc, argv, HXOPT_PTHRU) <= 0)
+ (HX_getopt(option_table, argc, argv, HXOPT_PTHRU) !=
+\begin_inset Newline newline
+\end_inset
+
+            HXOPT_ERR_SUCCESS)
 \begin_inset Newline newline
 \end_inset
 
@@ -19236,7 +21503,7 @@ Synopsis
 #include
 \series default
  <libHX/option.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19272,7 +21539,7 @@ const struct
 *
 \series default
 table);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19316,7 +21583,7 @@ table,
 unsigned int
 \series default
  flags);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19344,7 +21611,7 @@ HX_shconfig_map(
 const char *
 \series default
 file);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19503,7 +21770,7 @@ HX_shconfig_map
 SHCONF_ONE
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19711,7 +21978,7 @@ Function overview
 #include
 \series default
  <libHX/misc.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19739,7 +22006,7 @@ int
 void
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19767,7 +22034,7 @@ unsigned int
 unsigned int
 \series default
  max);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19797,7 +22064,7 @@ double
 double
 \series default
  max);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19868,7 +22135,7 @@ On Linux, Solaris and the BSDs, this is
 /dev/urandom
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19889,7 +22156,7 @@ If no random number generating device is available (and libHX configured
 rand
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19923,7 +22190,7 @@ dlopen
  The initial seed would be the current microtime when 
 \family typewriter
 gettimeofday
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19941,7 +22208,7 @@ gettimeofday
 time
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19966,7 +22233,7 @@ time
 
 \family typewriter
 /dev/random
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -19985,7 +22252,7 @@ status open
 \family default
  is just as good when there is entropy available.
  If you need definitive PRNG
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20052,7 +22319,7 @@ Process metadata structure
 #include
 \series default
  <libHX/proc.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20352,7 +22619,7 @@ p_flags
 HXPROC_STDIN
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20383,7 +22650,7 @@ sync
 HXPROC_STDOUT
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20412,7 +22679,7 @@ HXproc_run_sync
 HXPROC_STDERR
 \series medium
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20441,7 +22708,7 @@ HXproc_run_sync
 HXPROC_NULL_STDIN
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20478,7 +22745,7 @@ STDIN
 HXPROC_NULL_STDOUT
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20515,7 +22782,7 @@ STDOUT
 HXPROC_NULL_STDERR
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20552,7 +22819,7 @@ STDERR
 HXPROC_VERBOSE
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20573,7 +22840,7 @@ HXPROC_VERBOSE
 HXPROC_A0
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20615,7 +22882,7 @@ argv[1]
 HXPROC_EXECV
 \family default
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20631,7 +22898,7 @@ HXPROC_EXECV
 execvp
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20652,7 +22919,7 @@ $PATH
 execv
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20851,7 +23118,7 @@ struct
 *
 \series default
 proc);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20881,7 +23148,7 @@ argv,
 unsigned int
 \series default
  flags);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20911,7 +23178,7 @@ struct
 *
 \series default
 proc);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -20951,7 +23218,7 @@ HXproc_run_sync
 system
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21339,7 +23606,7 @@ HX_isalpha
 #include
 \series default
  <libHX/ctype_helper.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21367,7 +23634,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21393,7 +23660,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21419,7 +23686,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21445,7 +23712,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21471,7 +23738,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21497,7 +23764,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21521,7 +23788,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21545,7 +23812,7 @@ bool
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21571,7 +23838,7 @@ unsigned char
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21597,7 +23864,7 @@ unsigned char
 unsigned char
 \series default
  c);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21704,7 +23971,7 @@ libxml_helper.h
 #include
 \series default
  <libHX/libxml_helper.h>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21740,7 +24007,7 @@ a,
 const char *
 \series default
 b);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21772,7 +24039,7 @@ a,
 const char *
 \series default
 b);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21800,13 +24067,39 @@ node,
 const char *
 \series default
 attr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
 xml_getprop
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+char *xml_getnsprop(
+\series bold
+xmlNode *
+\series default
+node, 
+\series bold
+const char *
+\series default
+nsprefix, 
+\series bold
+const char *
+\series default
+attr);
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+xml_getnsprop
 \end_layout
 
 \end_inset
@@ -21828,7 +24121,7 @@ node,
 const char *
 \series default
 attr);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21847,16 +24140,20 @@ xmlNode
 \series bold
 *
 \series default
-xml_newnode(xmlNs 
+xml_newnode(xmlNode 
 \series bold
 *
 \series default
-ns, 
+parent, 
 \series bold
 const char *
 \series default
-name);
-\begin_inset Index
+name, 
+\series bold
+const char *
+\series default
+value);
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21890,7 +24187,7 @@ name,
 const char *
 \series default
 value);
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21912,7 +24209,7 @@ The functions map to
 strcmp
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21928,7 +24225,7 @@ strcmp
 strcasecmp
 \family default
 (3)
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21940,7 +24237,7 @@ strcasecmp
 \end_inset
 
 , 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21956,7 +24253,7 @@ xmlGetProp
 xmlGetProp
 \family default
 , 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -21972,23 +24269,26 @@ xmlNewProp
 xmlNewProp
 \family default
 , 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-xmlNewNode
+xmlNewTextNode
 \end_layout
 
 \end_inset
 
 
 \family typewriter
-xmlNewNode
+xml\SpecialChar \-
+New\SpecialChar \-
+Text\SpecialChar \-
+Node
 \family default
  and 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22001,9 +24301,28 @@ xmlSetProp
 
 
 \family typewriter
-xmlSetProp
+xml\SpecialChar \-
+Set\SpecialChar \-
+Prop
 \family default
 , respectively.
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+xml_getnsprop
+\family default
+ works similar to 
+\family typewriter
+xmlGetNsProp
+\family default
+, but instead of taking a namespace URI, it does a lookup by namespace prefix.
+ The argument order is also different compared to 
+\family typewriter
+xmlGetNsProp
+\family default
+.
 \end_layout
 
 \begin_layout Subsection
@@ -22016,7 +24335,7 @@ wxWidgets
 #include
 \series default
  <libHX/wx_helper.hpp>
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22035,7 +24354,7 @@ Shortcut macros
 \end_layout
 
 \begin_layout Description
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22053,7 +24372,7 @@ wxACV
  Expands to 
 \family typewriter
 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22068,34 +24387,43 @@ wxALIGN_CENTER_VERTICAL
 \end_layout
 
 \begin_layout Description
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
 
 \family typewriter
-wxCFF
+wxCDF
 \end_layout
 
 \end_inset
 
 
 \family typewriter
-wxCFF
+wxCDF
 \family default
- Expands to a set of 
-\begin_inset Quotes eld
-\end_inset
-
-common frame flags
-\begin_inset Quotes erd
-\end_inset
-
- for dialogs.
+ Expands to a set of common dialog flags for 
+\family typewriter
+wxDialog
+\family default
+s, which includes 
+\family typewriter
+wxDEFAULT_\SpecialChar \-
+FRAME_\SpecialChar \-
+STYLE
+\family default
+ and a flag such that the dialog does not create a new window in the task
+ bar (
+\family typewriter
+wxFRAME_\SpecialChar \-
+NO_\SpecialChar \-
+TASKBAR
+\family default
+).
 \end_layout
 
 \begin_layout Description
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22111,7 +24439,7 @@ wxDPOS
 wxDPOS
 \family default
  Expands to 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22130,7 +24458,7 @@ wxDefaultPosition
 \end_layout
 
 \begin_layout Description
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22146,7 +24474,7 @@ wxDSIZE
 wxDSIZE
 \family default
  Expands to 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22160,6 +24488,41 @@ wxDefaultSize
 
 \family typewriter
 wxDefaultSize
+\family default
+.
+\end_layout
+
+\begin_layout Description
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+wxDSPAN
+\end_layout
+
+\end_inset
+
+
+\family typewriter
+wxDSPAN
+\family default
+ Expands to 
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+wxDefaultSpan
+\end_layout
+
+\end_inset
+
+
+\family typewriter
+wxDefaultSpan
 \family default
 .
 \end_layout
@@ -22174,7 +24537,7 @@ wxString wxfu8(
 const char *
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22194,7 +24557,7 @@ wxString wxfv8(
 const char *
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22222,7 +24585,7 @@ const
 &
 \series default
 );
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22242,7 +24605,7 @@ wxtu8
 wxfu8
 \family default
  Converts an UTF-8 string to a 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22266,7 +24629,7 @@ wxString
 wxfv8
 \family default
  Converts an UTF-8 string to an entity usable by 
-\begin_inset Index
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
@@ -22323,6 +24686,7 @@ Appendix
 \begin_layout Standard
 \begin_inset CommandInset index_print
 LatexCommand printindex
+type "idx"
 
 \end_inset
 

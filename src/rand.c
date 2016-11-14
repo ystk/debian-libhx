@@ -1,11 +1,11 @@
 /*
  *	Random numbers
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 2003 - 2008
+ *	Copyright Jan Engelhardt, 2003-2008
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #include "config.h"
 #include <sys/stat.h>
@@ -18,8 +18,8 @@
 #ifdef __unix__
 #	include <unistd.h>
 #endif
-#ifdef HAVE_GETTIMEOFDAY
-#	include <sys/time.h>
+#ifdef _WIN32
+#	include <process.h>
 #endif
 #include <libHX/init.h>
 #include <libHX/misc.h>
@@ -29,12 +29,15 @@ static unsigned int HXrand_obtain_seed(void)
 {
 	unsigned int s;
 
-#if defined(HAVE_GETTIMEOFDAY)
-	struct timeval tv;
+#if defined(HAVE_CLOCK_GETTIME)
+	struct timespec tv;
 
-	gettimeofday(&tv, NULL);
+	clock_gettime(CLOCK_REALTIME, &tv);
 	s  = tv.tv_sec;
-	s ^= tv.tv_usec << 16;
+	s ^= ~tv.tv_nsec;
+	clock_gettime(CLOCK_MONOTONIC, &tv);
+	s ^= tv.tv_sec;
+	s ^= ~tv.tv_nsec;
 #else
 	s = time(NULL);
 #endif
@@ -53,7 +56,7 @@ static unsigned int HXrand_obtain_seed(void)
 	return s;
 }
 
-static __attribute__((constructor)) void HXrand_init(void)
+static void HXrand_init(void)
 {
 	unsigned int seed;
 	int fd, ret = 0;
@@ -68,13 +71,7 @@ static __attribute__((constructor)) void HXrand_init(void)
 }
 
 static pthread_mutex_t HX_init_lock = PTHREAD_MUTEX_INITIALIZER;
-static unsigned int HX_use_count;
-
-static void __attribute__((constructor)) HX_ident(void)
-{
-	if (getenv("LIBHX_IDENTIFY") != NULL)
-		fprintf(stderr, "# " PACKAGE_NAME " " PACKAGE_VERSION "\n");
-}
+static unsigned long HX_use_count;
 
 EXPORT_SYMBOL int HX_init(void)
 {
@@ -116,8 +113,10 @@ EXPORT_SYMBOL unsigned int HX_irand(unsigned int lo, unsigned int hi)
 {
 	unsigned int delta = hi - lo;
 
-	if (delta <= RAND_MAX)
-		return HX_rand() % delta + lo;
+	if (delta == 0)
+		return lo;
+	else if (delta <= RAND_MAX)
+		return rand() % delta + lo;
 	else
 		return static_cast(unsigned int,
 		       static_cast(double, rand()) * delta / RAND_MAX) + lo;

@@ -1,11 +1,11 @@
 /*
  *	Auto-sizing memory containers
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 2002 - 2008
+ *	Copyright Jan Engelhardt, 2002-2011
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #include <stddef.h>
 #include <stdio.h>
@@ -14,27 +14,19 @@
 #include <libHX/string.h>
 #include "internal.h"
 
-#define HXMC_IDENT 0x200571AF
-
-struct memcont {
-	size_t alloc, length;
-	unsigned int id;
-	char data[0];
-};
-
-static inline size_t __HXmc_request(size_t len)
+static __inline__ size_t __HXmc_request(size_t len)
 {
 	/* The container, data portion, and a trailing \0 */
 	return sizeof(struct memcont) + len + 1;
 }
 
-static inline void HXmc_check(const struct memcont *c)
+static __inline__ void HXmc_check(const struct memcont *c)
 {
 	if (c->id != HXMC_IDENT)
 		fprintf(stderr, "libHX-mc error: not a hxmc object!\n");
 }
 
-static inline struct memcont *HXmc_base(const hxmc_t *p)
+static __inline__ struct memcont *HXmc_base(const hxmc_t *p)
 {
 	return containerof(p, struct memcont, data);
 }
@@ -42,7 +34,10 @@ static inline struct memcont *HXmc_base(const hxmc_t *p)
 EXPORT_SYMBOL hxmc_t *HXmc_strinit(const char *s)
 {
 	hxmc_t *t = NULL;
-	return HXmc_memcpy(&t, s, strlen(s));
+	size_t z = strlen(s);
+	if (z < 23 && HXmc_memcpy(&t, NULL, 23) == NULL)
+		return NULL;
+	return HXmc_memcpy(&t, s, z);
 }
 
 EXPORT_SYMBOL hxmc_t *HXmc_meminit(const void *ptr, size_t len)
@@ -153,7 +148,7 @@ EXPORT_SYMBOL hxmc_t *HXmc_memcat(hxmc_t **vp, const void *ptr, size_t len)
 	if (ptr == NULL)
 		return *vp = ctx->data;
 
-	memcpy(&ctx->data[ctx->length], ptr, len);
+	memcpy(ctx->data + ctx->length, ptr, len);
 	ctx->length = nl;
 	ctx->data[nl] = '\0';
 	return *vp = ctx->data;
@@ -201,8 +196,8 @@ EXPORT_SYMBOL hxmc_t *HXmc_memins(hxmc_t **vp, size_t pos, const void *ptr,
 	if (ptr == NULL)
 		return *vp = ctx->data;
 
-	memmove(&ctx->data[pos + len], &ctx->data[pos], ctx->length - pos);
-	memcpy(&ctx->data[pos], ptr, len);
+	memmove(ctx->data + pos + len, ctx->data + pos, ctx->length - pos);
+	memcpy(ctx->data + pos, ptr, len);
 	ctx->length += len;
 	ctx->data[ctx->length] = '\0';
 	return *vp = ctx->data;
@@ -216,7 +211,7 @@ EXPORT_SYMBOL hxmc_t *HXmc_memdel(hxmc_t *vp, size_t pos, size_t len)
 	if (pos + len > ctx->length)
 		len = ctx->length - pos;
 
-	memmove(&ctx->data[pos], &ctx->data[pos + len],
+	memmove(ctx->data + pos, ctx->data + pos + len,
 	        ctx->length - pos - len);
 	ctx->length -= len;
 	ctx->data[ctx->length] = '\0';

@@ -1,12 +1,16 @@
 /*
- *	This program is in the Public Domain
+ *	Test for libHX's maps
+ *	Copyright Jan Engelhardt
+ *
+ *	This program is free software; you can redistribute it and/or
+ *	modify it under the terms of the WTF Public License version 2 or
+ *	(at your option) any later version.
  */
-#include <sys/resource.h>
-#include <sys/time.h>
 #include <errno.h>
 #include <math.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -14,6 +18,10 @@
 #include <libHX/map.h>
 #include <libHX/misc.h>
 #include <libHX/string.h>
+#ifdef HAVE_SYS_RESOURCE_H
+#	include <sys/resource.h>
+#endif
+#include <sys/time.h>
 #include "internal.h"
 #include "map_int.h"
 
@@ -28,12 +36,12 @@ typedef struct HXmap *(*map_create4_fn_t)(unsigned int,
 
 static unsigned int tmap_indent = 0;
 
-static inline void tmap_ipush(void)
+static __inline__ void tmap_ipush(void)
 {
 	++tmap_indent;
 }
 
-static inline void tmap_ipop(void)
+static __inline__ void tmap_ipop(void)
 {
 	if (tmap_indent > 0)
 		--tmap_indent;
@@ -53,9 +61,13 @@ static void tmap_printf(const char *fmt, ...)
 
 static void tmap_time(struct timeval *tv)
 {
+#ifdef HAVE_SYS_RESOURCE_H
 	struct rusage r;
 	if (getrusage(RUSAGE_SELF, &r) == 0)
 		*tv = r.ru_utime;
+#else
+	memset(tv, 0, sizeof(*tv));
+#endif
 }
 
 static unsigned int tmap_smart_rand(unsigned int *left, unsigned int *right)
@@ -74,7 +86,7 @@ static unsigned int tmap_smart_rand(unsigned int *left, unsigned int *right)
  * @dest:	char buffer
  * @length:	size of buffer
  */
-static inline void tmap_rword(char *dest, unsigned int length)
+static __inline__ void tmap_rword(char *dest, unsigned int length)
 {
 	while (--length > 0)
 		*dest++ = HX_irand('a', 'z' + 1);
@@ -130,23 +142,20 @@ static void tmap_add_speed(struct HXmap *map)
 	do {
 		tmap_add_rand(map, 1);
 		tmap_time(&stop);
-		HX_diff_timeval(&delta, &stop, &start);
+		HX_timeval_sub(&delta, &stop, &start);
 	} while (!(delta.tv_sec >= 1 || map->items >= 1000000));
-	tmap_printf("%u elements in %ld.%06ld "
-		"(plus time measurement overhead)\n",
-		map->items, static_cast(long, delta.tv_sec),
-		static_cast(long, delta.tv_usec));
+	tmap_printf("%u elements in " HX_TIMEVAL_FMT
+		" (plus time measurement overhead)\n",
+		map->items, HX_TIMEVAL_EXP(&delta));
 	threshold = map->items;
 	tmap_flush(map, false);
 
 	tmap_time(&start);
 	tmap_add_rand(map, threshold);
 	tmap_time(&stop);
-	HX_diff_timeval(&delta, &stop, &start);
-	tmap_printf("%u elements in %ld.%06ld "
-		"(w/o overhead)\n",
-		map->items, static_cast(long, delta.tv_sec),
-		static_cast(long, delta.tv_usec));
+	HX_timeval_sub(&delta, &stop, &start);
+	tmap_printf("%u elements in " HX_TIMEVAL_FMT " (w/o overhead)\n",
+		map->items, HX_TIMEVAL_EXP(&delta));
 	tmap_ipop();
 }
 
@@ -168,19 +177,17 @@ static void tmap_trav_speed(struct HXmap *map)
 	while ((node = HXmap_traverse(iter)) != NULL)
 		;
 	tmap_time(&stop);
-	HX_diff_timeval(&delta, &stop, &start);
+	HX_timeval_sub(&delta, &stop, &start);
 	HXmap_travfree(iter);
-	tmap_printf("Open traversal of %u nodes: %ld.%06lds\n",
-		map->items, static_cast(long, delta.tv_sec),
-		static_cast(long, delta.tv_usec));
+	tmap_printf("Open traversal of %u nodes: " HX_TIMEVAL_FMT "s\n",
+		map->items, HX_TIMEVAL_EXP(&delta));
 
 	tmap_time(&start);
 	HXmap_qfe(map, tmap_each_fn, NULL);
 	tmap_time(&stop);
-	HX_diff_timeval(&delta, &stop, &start);
-	tmap_printf("QFE traversal of %u nodes: %ld.%06lds\n",
-		map->items, static_cast(long, delta.tv_sec),
-		static_cast(long, delta.tv_usec));
+	HX_timeval_sub(&delta, &stop, &start);
+	tmap_printf("QFE traversal of %u nodes: " HX_TIMEVAL_FMT "s\n",
+		map->items, HX_TIMEVAL_EXP(&delta));
 	tmap_ipop();
 
 	tmap_printf("MAP test 2a: Timing lookup\n");
@@ -190,15 +197,14 @@ static void tmap_trav_speed(struct HXmap *map)
 	while ((node = HXmap_traverse(iter)) != NULL)
 		HXmap_find(map, node->key);
 	tmap_time(&stop);
-	HX_diff_timeval(&delta2, &stop, &start);
+	HX_timeval_sub(&delta2, &stop, &start);
 	HXmap_travfree(iter);
 	/* delta2 includes traversal time */
 	start = delta;
 	stop  = delta2;
-	HX_diff_timeval(&delta, &stop, &start);
-	tmap_printf("Lookup of %u nodes: %ld.%06lds\n",
-		map->items, static_cast(long, delta.tv_sec),
-		static_cast(long, delta.tv_usec));
+	HX_timeval_sub(&delta, &stop, &start);
+	tmap_printf("Lookup of %u nodes: " HX_TIMEVAL_FMT "s\n",
+		map->items, HX_TIMEVAL_EXP(&delta));
 	tmap_ipop();
 }
 
@@ -270,8 +276,14 @@ static void tmap_generic_tests(enum HXmap_type type,
 
 static int tmap_strtolcmp(const void *a, const void *b, size_t z)
 {
-	return strtol(static_cast(const char *, a), NULL, 0) -
-	       strtol(static_cast(const char *, b), NULL, 0);
+	long p = strtol(static_cast(const char *, a), NULL, 0);
+	long q = strtol(static_cast(const char *, b), NULL, 0);
+
+	if (p < q)
+		return -1;
+	if (p > q)
+		return 1;
+	return 0;
 }
 
 static const struct HXmap_ops tmap_nstr_ops = {
@@ -351,13 +363,34 @@ static double hmap_agg_index(const struct HXhmap *hmap, bool verbose)
 		return 0;
 	if (verbose)
 		printf("{");
+
+	/*
+	 * HXhmap is written such that the number of buckets is always equal or
+	 * greater than the element count. This is done because, in practice,
+	 * buckets will be populated with more than a few (two/three) entries
+	 * before elements/buckets >= grow_trigger_ratio.
+	 *
+	 * Therefore, one could distribute elements such that no bucket
+	 * contains more than one. This is the "ideal" situation. We now count
+	 * the sum of absolute differences from this ideal, abs(1-j).
+	 *
+	 */
 	for (i = 0; i < HXhash_primes[hmap->power]; ++i) {
 		j = 0;
 		HXlist_for_each_entry(hnode, &hmap->bk_array[i], anchor)
 			++j;
 		if (verbose)
 			printf("%u,", j);
-		/* Difference to ideal is abs(1 - j): */
+		/*
+		 * The --j thing looks a little odd on review, but actually
+		 * just does j=abs(1-j), but unlike abs, can handle a range
+		 * nearly as large as unsigned int, were it to use something
+		 * like j==(unsigned int)-1 instead of j<0.
+		 *
+		 *   j=0 => j=-1 => j=+1
+		 *   j=1 => j= 0 => j= 0
+		 *   j=2 => j=+1 => j=+1
+		 */
 		--j;
 		if (j < 0)
 			j = -j;
@@ -367,7 +400,11 @@ static double hmap_agg_index(const struct HXhmap *hmap, bool verbose)
 		printf("}\n");
 	/* Ignore buckets that must logically be empty (pigeonhole principle) */
 	f -= HXhash_primes[hmap->power] - hmap->super.items;
-	/* It's f/(2(e-1)) */
+	/*
+	 * Since we counted both underpopulation (0 elements in a bucket) as
+	 * well as overpopulation (more than 1 element in a bucket), @f needs
+	 * to be divided by two, making it f/(2*(e-1)).
+	 */
 	/* Now return % */
 	return static_cast(double, 50 * f) / (hmap->super.items - 1);
 }
@@ -630,7 +667,7 @@ static void rbt_peel_tree(union HXpoly u, unsigned int range)
 	unsigned int left = 1;
 
 	while (u.map->items != 0) {
-		unsigned long number = tmap_smart_rand(&left, &range);
+		uintptr_t number = tmap_smart_rand(&left, &range);
 
 		HXmap_del(u.map, reinterpret_cast(const void *, number));
 		if (errno == -ENOENT)
@@ -659,7 +696,7 @@ static void tmap_rbt_test_7(void)
 		left  = 1;
 		right = elems + 1;
 		for (i = 0; i < elems; ++i) {
-			unsigned long z = tmap_smart_rand(&left, &right);
+			uintptr_t z = tmap_smart_rand(&left, &right);
 
 			ret = HXmap_add(u.map,
 			      reinterpret_cast(const void *, z), NULL);
@@ -676,10 +713,25 @@ static void tmap_rbt_test_7(void)
 	HXmap_free(u.map);
 }
 
+static void tmap_zero(void)
+{
+	struct HXmap *b;
+
+	b = HXmap_init(HXMAPT_DEFAULT, HXMAP_CKEY | HXMAP_CDATA);
+	if (b != NULL)
+		fprintf(stderr, "eek!\n");
+	b = HXmap_init(HXMAPT_DEFAULT, HXMAP_CKEY);
+	if (b != NULL)
+		fprintf(stderr, "eek!\n");
+}
+
 int main(void)
 {
 	if (HX_init() <= 0)
 		abort();
+
+	tmap_zero();
+
 	tmap_printf("* HXhashmap\n");
 	tmap_generic_tests(HXMAPT_HASH, HXhash_djb2, "DJB2");
 	tmap_generic_tests(HXMAPT_HASH, HXhash_jlookup3s, "JL3");

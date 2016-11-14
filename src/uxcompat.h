@@ -1,10 +1,12 @@
 #ifndef _LIBHX_UXCOMPAT_H
 #define _LIBHX_UXCOMPAT_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus) && __cplusplus >= 201100UL
 #	include <cstddef>
+#	include <cstdint>
 #else
 #	include <stddef.h>
+#	include <stdint.h>
 #endif
 #include <sys/stat.h>
 
@@ -65,6 +67,8 @@ extern "C" {
 #	define S_IWOTH 00002
 #endif
 
+struct stat;
+
 /*
  *	UX-FILE.C
  */
@@ -82,7 +86,7 @@ extern int symlink(const char *, const char *);
  *	UX-MMAP.C
  */
 #ifdef _WIN32
-#	define MAP_FAILED ((void *)-1)
+#	define MAP_FAILED  reinterpret_cast(void *, static_cast(intptr_t, -1))
 #	define PROT_NONE   0x0
 #	define PROT_READ   0x1
 #	define PROT_WRITE  0x2

@@ -1,5 +1,5 @@
-.deps
-.libs
+.deps/
+.libs/
 Makefile
 Makefile.in
 *.exe
@@ -8,15 +8,11 @@ Makefile.in
 *.o
 
 /aclocal.m4
-/autom4te*.cache
-/compile
+/autom4te.cache/
+/build-aux/
 /config.*
 /configure
-/depcomp
-/install-sh
 /libtool
-/ltmain.sh
-/missing
 stamp-h1
 
 /libHX.pc

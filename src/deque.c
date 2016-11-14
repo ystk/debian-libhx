@@ -1,11 +1,11 @@
 /*
  *	Double-ended queues
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 2002 - 2008
+ *	Copyright Jan Engelhardt, 2002-2008
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #include <errno.h>
 #include <stdarg.h>
@@ -15,8 +15,8 @@
 #include <libHX/string.h>
 #include "internal.h"
 
-static inline void HXdeque_add(struct HXdeque_node *af,
-    struct HXdeque_node *nd)
+static __inline__ void
+HXdeque_add(struct HXdeque_node *af, struct HXdeque_node *nd)
 {
 	struct HXdeque *parent = af->parent;
 	nd->next   = af->next;
@@ -27,8 +27,8 @@ static inline void HXdeque_add(struct HXdeque_node *af,
 		parent->last = nd;
 }
 
-static inline void HXdeque_drop(struct HXdeque *parent,
-    struct HXdeque_node *node)
+static __inline__ void
+HXdeque_drop(struct HXdeque *parent, struct HXdeque_node *node)
 {
 	struct HXdeque_node *left = node->prev, *right = node->next;
 
@@ -142,7 +142,7 @@ EXPORT_SYMBOL struct HXdeque_node *HXdeque_find(struct HXdeque *dq,
 
 EXPORT_SYMBOL void *HXdeque_get(struct HXdeque *dq, const void *ptr)
 {
-	struct HXdeque_node *trav = dq->first;
+	struct HXdeque_node *trav;
 	for (trav = dq->first; trav != NULL; trav = trav->next)
 		if (trav->ptr == ptr)
 			return trav->ptr;
@@ -160,7 +160,8 @@ EXPORT_SYMBOL void HXdeque_genocide2(struct HXdeque *dq, void (*xfree)(void *))
 	free(dq);
 }
 
-EXPORT_SYMBOL void **HXdeque_to_vec(const struct HXdeque *dq, unsigned int *num)
+EXPORT_SYMBOL void **
+HXdeque_to_vec(const struct HXdeque *dq, unsigned int *num)
 {
 	const struct HXdeque_node *trav;
 	void **ret, **p;

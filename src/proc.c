@@ -1,11 +1,11 @@
 /*
  *	Process management
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 2008 - 2009
+ *	Copyright Jan Engelhardt, 2008-2009
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2.1 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #include "config.h"
 #include "internal.h"
@@ -60,7 +60,8 @@ EXPORT_SYMBOL int HXproc_wait(struct HXproc *p)
  * Explicitly initialize the @p array with -1 so that we can call close()
  * on all of them without any side effects.
  */
-static inline int HXproc_build_pipes(const struct HXproc *proc, int (*p)[2])
+static __inline__ int
+HXproc_build_pipes(const struct HXproc *proc, int (*p)[2])
 {
 	unsigned int x, y;
 
@@ -108,7 +109,8 @@ static void HXproc_close_pipes(int (*p)[2])
  *
  * Sets up pipes and runs the specified program.
  */
-EXPORT_SYMBOL int HXproc_run_async(const char *const *argv, struct HXproc *proc)
+EXPORT_SYMBOL int
+HXproc_run_async(const char *const *argv, struct HXproc *proc)
 {
 	int pipes[3][2], nullfd = -1, ret, saved_errno;
 	unsigned int t;

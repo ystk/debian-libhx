@@ -1,11 +1,11 @@
 /*
  *	libHX/assorted/pack.c
- *	Copyright © Jan Engelhardt <jengelh [at] medozas de>, 1999 - 2005
+ *	Copyright Jan Engelhardt, 1999-2005
  *
  *	This file is part of libHX. libHX is free software; you can
- *	redistribute it and/or modify it under the terms of the GNU
- *	Lesser General Public License as published by the Free Software
- *	Foundation; either version 2 or 3 of the License.
+ *	redistribute it and/or modify it under the terms of the GNU Lesser
+ *	General Public License as published by the Free Software Foundation;
+ *	either version 2.1 or (at your option) any later version.
  */
 #include <sys/types.h>
 #include <stdarg.h>
